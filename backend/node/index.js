@@ -4,6 +4,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const chatbotRouter = require("./routers/chatbotRouter");
+const axios = require('axios');
 
 const app = express();
 require('dotenv').config();
