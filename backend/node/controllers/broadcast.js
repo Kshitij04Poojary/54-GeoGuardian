@@ -1,4 +1,4 @@
-const User = require('../models/userModel');
+const User = require('../models/usersModel');
 const smsService = require('../utils/smsService');
 
 exports.broadcastMessage = async (req, res) => {

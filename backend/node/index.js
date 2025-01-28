@@ -3,6 +3,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
+const chatbotRouter = require("./routers/chatbotRouter");
 
 const app = express();
 require('dotenv').config();
@@ -13,6 +14,7 @@ app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
+
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URL)
@@ -30,6 +32,7 @@ const broadcastRouter = require('./routers/broadcastRouter');
 // Routes
 app.use('/api/auth', authRouter);
 app.use('/api/broadcast', broadcastRouter); // Added broadcast route
+app.use("/api/chatbot", chatbotRouter);
 
 // Test route
 app.get('/', (req, res) => {
