@@ -20,10 +20,10 @@ const postSchema = mongoose.Schema({
     },
     urgent: {
         type: Boolean,
-        default: false, // Default is not urgent
+        default: false,
     },
 }, {
-    timestamps: true // Automatically adds `createdAt` and `updatedAt` fields
+    timestamps: true
 });
 
 module.exports = mongoose.model('Post', postSchema);

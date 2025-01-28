@@ -95,7 +95,7 @@ const AdminDashboard = () => {
 
   return (
 
-    <div className="container mx-auto p-6 bg-gray-100 min-h-screen">
+    <div className="container mx-auto p-6 bg-gray-100 h-screen overflow-y-scroll">
       <p className="text-blue-600 text-3xl font-bold pb-4">Organisation name</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <GradientCard icon={FaMapPin} value={6} label="Current affected Areas" />

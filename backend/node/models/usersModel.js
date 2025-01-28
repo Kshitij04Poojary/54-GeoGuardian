@@ -29,21 +29,20 @@ const userSchema = mongoose.Schema({
     },
     userType: {
         type: String,
-        required: [true, "User type must be selected"],
+        // required: [true, "User type must be selected"],
         enum: ['Admin', 'Organization', 'NGO', 'Citizen'], // Allowed user types
-        default: 'Citizen', // Default user type if none is selected
+        default: 'Citizen',
     },
     phone: {
         type: String,
         required: [true, "Phone number is required"],
         unique: [true, "Phone number must be unique"],
-        validate: {
-            validator: function (v) {
-                // Validate phone number format (10-digit for India)
-                return /^[6-9]\d{9}$/.test(v);
-            },
-            message: props => `${props.value} is not a valid phone number!`
-        },
+        // validate: {
+        //     validator: function (v) {
+        //         return /^\d{10}$/.test(v);
+        //     },
+        //     message: props => `${props.value} is not a valid phone number!`
+        // },
     },
 }, {
     timestamps: true

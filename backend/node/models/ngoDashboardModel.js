@@ -60,7 +60,7 @@ const ngoDashboardSchema = mongoose.Schema({
         default: Date.now
     },
     volunteers: {
-        type: [volunteerSchema], // Array of volunteer sub-documents
+        type: [volunteerSchema],
         default: []
     }
 }, {

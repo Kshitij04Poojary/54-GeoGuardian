@@ -8,7 +8,7 @@ const forumSchema = mongoose.Schema({
     },
     userType: {
         type: String,
-        enum: ['Admin', 'Organization', 'NGO', 'Citizen'], // Allowed user types
+        enum: ['Admin', 'Organization', 'NGO', 'Citizen'],
         required: [true, "User type is required"],
     },
     message: {
@@ -17,7 +17,7 @@ const forumSchema = mongoose.Schema({
         trim: true,
     },
 }, {
-    timestamps: true // Automatically adds `createdAt` and `updatedAt` fields
+    timestamps: true
 });
 
 module.exports = mongoose.model('Forum', forumSchema);
