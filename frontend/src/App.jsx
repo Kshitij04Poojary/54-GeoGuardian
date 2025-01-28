@@ -9,6 +9,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import AdminDashboard from './pages/AdminDashboard';
+import EarthCanvas from './components/Earth';
 
 // Layout
 import SidebarLayout from './layout/SidebarLayout';
@@ -17,6 +18,8 @@ import ChatLayout from './layout/ChatLayout';
 function App() {
 
   return (
+    <>
+    <EarthCanvas/>
     <Routes>
       <Route index path='/login' element={<Login />} />
       <Route path='/register' element={<Register />} />

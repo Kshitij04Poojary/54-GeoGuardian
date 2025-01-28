@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const chatbotRouter = require("./routers/chatbotRouter");
 const User = require('./models/usersModel');
+const axios = require('axios');
 
 require('dotenv').config();
 
