@@ -1,33 +1,52 @@
-const mongoose=require('mongoose')
-const userSchema=mongoose.Schema({
-    email:{
-        type:String,
-        required:[true,'Email is required'],
-        trim:true,
-        unique:[true,"Email must be unique"],
-        minLength:[5,"Email must have 5 characters"],
-        lowercase:true
-    },
-    password:{
-        type:String,
-        required:[true,"Password must be provided"],
-        trim:true,
-        select:false,
-    },
-    verified:{
-        type:Boolean,
-        default:false,
-    },
-    verificationCode:{
-        type:String,
-        select:false,
-    },
-    verificationCodeValidation:{
-        type:Number,
-        select:false,
-    },
-},{
-    timestamps:true
-})
+const mongoose = require('mongoose');
 
-module.exports=mongoose.model('User',userSchema);
+const userSchema = mongoose.Schema({
+    email: {
+        type: String,
+        required: [true, 'Email is required'],
+        trim: true,
+        unique: [true, "Email must be unique"],
+        minLength: [5, "Email must have 5 characters"],
+        lowercase: true
+    },
+    password: {
+        type: String,
+        required: [true, "Password must be provided"],
+        trim: true,
+        select: false,
+    },
+    verified: {
+        type: Boolean,
+        default: false,
+    },
+    verificationCode: {
+        type: String,
+        select: false,
+    },
+    verificationCodeValidation: {
+        type: Number,
+        select: false,
+    },
+    userType: {
+        type: String,
+        required: [true, "User type must be selected"],
+        enum: ['Admin', 'Organization', 'NGO', 'Citizen'], // Allowed user types
+        default: 'Citizen', // Default user type if none is selected
+    },
+    phone: {
+        type: String,
+        required: [true, "Phone number is required"],
+        unique: [true, "Phone number must be unique"],
+        validate: {
+            validator: function (v) {
+                // Validate phone number format (10-digit for India)
+                return /^[6-9]\d{9}$/.test(v);
+            },
+            message: props => `${props.value} is not a valid phone number!`
+        },
+    },
+}, {
+    timestamps: true
+});
+
+module.exports = mongoose.model('User', userSchema);
