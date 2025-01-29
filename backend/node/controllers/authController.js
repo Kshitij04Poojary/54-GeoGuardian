@@ -7,7 +7,7 @@ const upload = require('../middlewares/upload');
 
 // Signup Controller
 exports.signup = async (req, res) => {
-    const { email, password, phone, username} = req.body;
+    const { email, password, phone, username,userType} = req.body;
     
     try {
         const { error, value } = signupSchema.validate({ email, password });
@@ -31,6 +31,7 @@ exports.signup = async (req, res) => {
             password: hashedPassword,
             phone,
             username,
+            userType
         });
 
         const result = await newUser.save();
