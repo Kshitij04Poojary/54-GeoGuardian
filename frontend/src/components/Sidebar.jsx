@@ -30,7 +30,7 @@ const Sidebar = ({ userRole = "admin" }) => {
       icon: Users
     },
     {
-      name: "aid",
+      name: "Aid",
       path: "/dashboard/aid",
       allowedFor: ["admin", "refugee"],
       icon: Users
@@ -54,7 +54,7 @@ const Sidebar = ({ userRole = "admin" }) => {
               <button
                 key={index}
                 onClick={() => navigate(route.path)}
-                className={`w-full flex items-center justify-between py-2 px-3 rounded-lg transition-colors
+                className={`w-full flex items-center justify-between py-2 px-3 rounded-lg transition-colors cursor-pointer
                   ${isActive
                     ? 'bg-violet-100 text-violet-700'
                     : 'text-gray-700 hover:bg-gray-100'
@@ -70,12 +70,12 @@ const Sidebar = ({ userRole = "admin" }) => {
         </nav>
       </div>
 
-      <div className="mt-auto p-4">
+      <div className="mt-auto p-4 cursor-pointer">
         <div className="bg-violet-100 rounded-lg p-4 flex flex-col items-center text-center">
           <div className="w-6 h-6 text-violet-500 mb-2">?</div>
           <h3 className="text-sm font-medium mb-1">Need Help?</h3>
           <p className="text-xs text-gray-600 mb-3">Contact us for support</p>
-          <button className="text-sm bg-white text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-50 transition-colors">
+          <button className="text-sm bg-white text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
             Support Center
           </button>
         </div>

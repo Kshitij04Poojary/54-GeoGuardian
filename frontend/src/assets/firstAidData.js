@@ -1,9 +1,16 @@
+import video1 from './FirstAid.mp4';
+import video2 from './Flood.mp4';
+import video3 from './Earthquake.mp4';
+import video4 from './Landslide.mp4';
+import video5 from './Cyclone.mp4';
+
+
 const firstAidData = [
     {
         id: "firstAid",
         title: "First Aid",
-        image: "https://example.com/images/first_aid.webp",
-        video: "/videos/first_aid.mp4",
+        image: "https://media.istockphoto.com/id/477984136/vector/first-aid-kit.jpg?s=612x612&w=0&k=20&c=zfKTAwJ6RVhOpvMGKOeTJ6_GyYDXOjwUBNxNZ_17Q1M=",
+        video: video1,
         instructions: [
           "Ensure the area is safe before approaching the injured person.",
           "Check if the person is responsive by gently shaking or tapping them and asking, 'Are you okay?'",
@@ -21,7 +28,7 @@ const firstAidData = [
       id: "flood",
       title: "Flood",
       image: "https://s7d1.scene7.com/is/image/wbcollab/jung_photo_three?qlt=90&fmt=webp&resMode=sharp2",
-      video: "/videos/flood.mp4",
+      video: video2,
       instructions: [
         "Move to higher ground immediately.",
         "Avoid walking or driving through floodwaters.",
@@ -34,7 +41,7 @@ const firstAidData = [
       id: "earthquake",
       title: "Earthquake",
       image: "https://www.foremost.com/images/Earthquake-Safety.jpg",
-      video: "/videos/earthquake.mp4",
+      video: video3,
       instructions: [
         "Drop, cover, and hold under a sturdy table or desk.",
         "Stay away from windows, mirrors, and heavy furniture.",
@@ -47,7 +54,7 @@ const firstAidData = [
       id: "landslide",
       title: "Landslide",
       image: "https://m.economictimes.com/thumb/msid-52279199,width-1200,height-1200,resizemode-4,imgsize-117707/12-per-cent-of-indias-land-mass-vulnerable-to-landslide-gsi.jpg",
-      video: "/videos/landslide.mp4",
+      video: video4,
       instructions: [
         "Stay away from the landslide path and debris flow.",
         "Monitor for ground movement and unusual sounds.",
@@ -60,7 +67,7 @@ const firstAidData = [
       id: "cyclone",
       title: "Cyclone",
       image: "https://images.moneycontrol.com/static-mcnews/2024/10/20241024105821_cyclone.jpg?impolicy=website&width=770&height=431",
-      video: "/videos/cyclone.mp4",
+      video: video5,
       instructions: [
         "Secure your home and remove loose objects from outdoors.",
         "Stay indoors and keep away from windows.",
