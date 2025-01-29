@@ -14,27 +14,32 @@ import EarthCanvas from './components/Earth';
 // Layout
 import SidebarLayout from './layout/SidebarLayout';
 import ChatLayout from './layout/ChatLayout';
+import NoticeForm from './components/forms/NoticeForm';
+import NoticesPage from './pages/NoticesPage';
 
 function App() {
 
   return (
     <>
-    <EarthCanvas/>
-    <Routes>
-      <Route index path='/login' element={<Login />} />
-      <Route path='/register' element={<Register />} />
-      <Route path='/forgot-password' element={<ForgotPassword />} />
-      <Route path='/dashboard' element={<SidebarLayout />}>
-        <Route path='ngo' >
-          <Route path='map' element={<Map />} />
-          <Route path='analytics' element={<AdminDashboard />} />
-          <Route element={<ChatLayout />} >
-            <Route  path='collab' element={<ChatWindow />} />
+      {/* <EarthCanvas/> */}
+      <Routes>
+        <Route index path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
+        <Route path='/forgot-password' element={<ForgotPassword />} />
+        <Route path='/notices' element={<NoticesPage />} />
+        <Route path='/notices/add' element={<NoticeForm />} />
+
+        <Route path='/dashboard' element={<SidebarLayout />}>
+          <Route path='ngo' >
+            <Route path='map' element={<Map />} />
+            <Route path='analytics' element={<AdminDashboard />} />
+            <Route element={<ChatLayout />} >
+              <Route path='collab' element={<ChatWindow />} />
+            </Route>
+            <Route path='refugee' />
           </Route>
-          <Route path='refugee' />
         </Route>
-      </Route>
-    </Routes >
+      </Routes >
     </>
   )
 }
