@@ -36,10 +36,10 @@ function App() {
             <Route path='aid' element={<FirstAidPage />} />
             <Route path='analytics' element={<AdminDashboard />} />
             <Route path='forum' element={<ChatWindow />} />
+            <Route path='refugeearea' element={<RefugeeArea />} />
+            <Route path='refugeearea/:id' element={<RefugeeAreaDetails />} />
         </Route>
-        <Route path='/refugeearea' element={<RefugeeArea />} />
-        <Route path='/refugeearea/:id' element={<RefugeeAreaDetails />} />
-        <Route path='/update-dashboard' element={<UpdateDashboard/>}/>
+        <Route path='/update-dashboard' element={<UpdateDashboard />} />
       </Routes >
     </UserContextProvider>
   )
