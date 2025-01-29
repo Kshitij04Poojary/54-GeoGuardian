@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Upload } from 'lucide-react';
+import axios from 'axios'
 
 function Register() {
     const [step, setStep] = useState(1);
@@ -41,13 +42,58 @@ function Register() {
             setAddressProof(null);
         }
     };
-
-    const handleSubmit = (e) => {
+    const navigate = useNavigate();
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Form submitted:", { formData, idProof, addressProof });
-        // Submit form logic here
-    };
+    
+        try {
+            const signupResponse = await axios.post("http://localhost:8000/api/auth/signup", {
+                email: formData.email,
+                password: formData.password,
+                phone: formData.phone,
+                username: formData.username,
+                userType: formData.userType
+            });
+    
+            if (!signupResponse.data.success) {
+                alert("Signup failed: " + signupResponse.data.message);
+                return;
+            }
+    
+            const userId = signupResponse.data.result._id; // Get userId from response
+    
+            // 2️⃣ Upload documents only if required
+            if (formData.userType !== "Citizen") { 
+                const documentData = new FormData();
+                
+                console.log("idProof:", idProof);
+                console.log("addressProof:", addressProof);
+                if (formData.userType === "Admin" && idProof) {
+                    documentData.append("document1", idProof);
+                } 
+                if (formData.userType === "Organization" && addressProof) {
+                    documentData.append("document2", addressProof);
+                }
+                
 
+                console.log("Document 1:", documentData.get("document1"));
+                console.log("Document 2:", documentData.get("document2"));
+
+                if (documentData.has("document1") || documentData.has("document2")) {
+                    await axios.post(`http://localhost:8000/api/upload-documents/${userId}`, documentData, {
+                        headers: { "Content-Type": "multipart/form-data" }
+                    });
+                }
+            }
+    
+            navigate("/login"); 
+    
+        } catch (error) {
+            console.error(error);
+            alert("Error occurred during signup or document upload.");
+        }
+    };
+    
     const isMultiStep = formData.userType === "NGO" || formData.userType === "Organization";
 
     return (
