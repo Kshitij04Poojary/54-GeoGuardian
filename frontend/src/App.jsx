@@ -14,7 +14,6 @@ import FirstAidPage from './pages/FirstAidPage';
 
 // Layout
 import SidebarLayout from './layout/SidebarLayout';
-import ChatLayout from './layout/ChatLayout';
 import NoticeForm from './components/forms/NoticeForm';
 import NoticesPage from './pages/NoticesPage';
 import RefugeeArea from './pages/RefugeeArea';

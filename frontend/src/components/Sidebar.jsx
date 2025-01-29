@@ -1,15 +1,25 @@
-import { useState } from 'react';
+import { useContext } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Map,
   Users,
   LineChart,
-  Globe
+  Cross,
+  Globe,
+  Tent,
+  LogOut
 } from 'lucide-react';
+import { UserContext } from "../context/UserContext";
 
-const Sidebar = ({ userRole = "Admin" }) => {
+const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  
+  // Access user info from UserContext
+  const { user } = useContext(UserContext);  // Accessing user context
+
+  // Destructure userType from user.user
+  const { userType } = user?.user || {};  // Default to empty if no user data
 
   const routes = [
     {
@@ -21,7 +31,7 @@ const Sidebar = ({ userRole = "Admin" }) => {
     {
       name: "Nearby help",
       path: "/dashboard/map",
-      allowedFor: ["Admin", "Citizen"],
+      allowedFor: ["Admin", "Citizen", "Organization"],
       icon: Map
     },
     {
@@ -34,12 +44,25 @@ const Sidebar = ({ userRole = "Admin" }) => {
       name: "Aid",
       path: "/dashboard/aid",
       allowedFor: ["Admin", "Citizen"],
-      icon: Users
+      icon: Cross
+    },
+    {
+      name: "Refugee Details",
+      path: "/dashboard/refugeearea",
+      allowedFor: ["Admin", "NGO", "Organization", "Citizen"],
+      icon: Tent
+    },
+    {
+      name: "Logout",
+      path: "/",
+      allowedFor: ["Admin", "NGO", "Organization", "Citizen"],
+      icon: LogOut
     }
   ];
 
+  // Filter routes based on userType
   const filteredRoutes = routes.filter(route =>
-    route.allowedFor.includes(userRole) && route.name !== ""
+    route.allowedFor.includes(userType)
   );
 
   return (
@@ -49,7 +72,7 @@ const Sidebar = ({ userRole = "Admin" }) => {
         <div className="flex items-center gap-2">
           <Globe className="w-6 h-6 animate-pulse" />
           <div className="flex flex-col">
-            <h2 className="font-bold text-2xl text-grey-500  racking-wide">
+            <h2 className="font-bold text-2xl text-grey-500 tracking-wide">
               Geo
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-600">
                 Guardian
@@ -88,8 +111,7 @@ const Sidebar = ({ userRole = "Admin" }) => {
 
       <div className="mt-auto p-4 cursor-pointer">
         <div className="bg-violet-100 rounded-lg p-4 flex flex-col items-center text-center">
-          <div className="w-6 h-6 text-violet-500 mb-2">?</div>
-          <h3 className="text-sm font-medium mb-1">Need Help?</h3>
+          <h3 className="text-sm font-medium mb-1">Need Help ?</h3>
           <p className="text-xs text-gray-600 mb-3">Contact us for support</p>
           <button className="text-sm bg-white text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
             Support Center

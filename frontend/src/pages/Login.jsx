@@ -2,11 +2,13 @@ import { useNavigate, Link } from "react-router-dom";
 import { useContext, useState } from "react";
 import axios from "axios";
 import { UserContext } from "../context/UserContext";
+import { Eye, EyeOff } from "lucide-react"; // Import Eye and EyeOff icons
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // State for toggling password visibility
   const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -57,13 +59,22 @@ function Login() {
               </label>
               <div className="relative">
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"} // Toggle between text and password input
                   id="password"
                   className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                  placeholder=""
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
+                {/* Show Password Icon */}
+                <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)} // Toggle the visibility
+                    className="text-gray-600"
+                  >
+                    {showPassword ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
+                  </button>
+                </div>
               </div>
             </div>
 
