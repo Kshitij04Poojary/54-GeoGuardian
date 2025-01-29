@@ -57,7 +57,7 @@ function Login() {
                         <div>
                             <button
                                 type="submit"
-                                onClick={() => navigate("/dashboards/home")}
+                                onClick={() => navigate("/dashboard/analytics")}
                                 className="w-full py-2 px-4 bg-[#3182ce] hover:bg-[#2B6CB0] text-white font-semibold rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                             >
                                 Login
