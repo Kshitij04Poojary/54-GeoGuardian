@@ -18,12 +18,11 @@ import NoticeForm from './components/forms/NoticeForm';
 import NoticesPage from './pages/NoticesPage';
 import RefugeeArea from './pages/RefugeeArea';
 import RefugeeAreaDetails from './pages/RefugeeAreaDetails';
-<<<<<<< Updated upstream
+
 import { UserContextProvider } from './context/UserContext';
 import UpdateDashboard from './pages/UpdateDashboard';
-=======
 import CoordinateDisplay from './pages/CoordinateDisplay';
->>>>>>> Stashed changes
+
 function App() {
 
   return (
@@ -43,13 +42,13 @@ function App() {
             <Route path='refugeearea' element={<RefugeeArea />} />
             <Route path='refugeearea/:id' element={<RefugeeAreaDetails />} />
         </Route>
-<<<<<<< Updated upstream
+
         <Route path='/update-dashboard' element={<UpdateDashboard />} />
-=======
+
         <Route path='/refugeearea' element={<RefugeeArea />} />
         <Route path='/refugeearea/:id' element={<RefugeeAreaDetails />} />
         <Route path='/cyclones' element={<CoordinateDisplay/>}/>
->>>>>>> Stashed changes
+
       </Routes >
     </UserContextProvider>
   )
