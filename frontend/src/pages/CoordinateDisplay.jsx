@@ -32,7 +32,7 @@ const CoordinateDisplay = () => {
             }, { withCredentials: true });
 
             const response4 = await axios.get('http://127.0.0.1:5008/api/main/flood/images', { withCredentials: true });
-            console.log(response4.data);
+            // console.log(response4.data);
 
             setIscyclone(response2.data === 1);
 

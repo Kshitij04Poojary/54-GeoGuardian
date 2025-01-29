@@ -2,10 +2,11 @@ import React, { useRef, useState } from 'react';
 import { Menu, X, AlertTriangle, Globe, Brain, Clock } from 'lucide-react';
 import Card from '../components/Card';
 import Testimonials from '../components/Testimonials';
-import EarthCanvas from '../components/Earth';
+
 import { useNavigate } from 'react-router-dom';
 
 const Landing = () => {
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   const scrollContainerRef = useRef(null);
@@ -87,10 +88,12 @@ const Landing = () => {
             </div>
 
             <div className="hidden md:flex items-center space-x-4">
-              <button className="px-4 py-2 text-white rounded-lg border-2 border-blue-800 transition-colors cursor-pointer">
+              <button className="px-4 py-2 text-white rounded-lg border-2 border-blue-800 transition-colors cursor-pointer"
+                onClick={() => navigate('/login')}>
                 Login
               </button>
-              <button className="px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-800 transition-colors cursor-pointer">
+              <button className="px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-800 transition-colors cursor-pointer"
+                onClick={() => navigate('/register')}>
                 Register
               </button>
             </div>
@@ -146,7 +149,7 @@ const Landing = () => {
               </div>
               <div className="mx-auto flex max-w-xs flex-col gap-y-4">
                 <dt className="text-base/7 text-gray-600">Assets under holding</dt>
-                <dd className="order-first text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">₹119 trillion</dd>
+                <dd className="order-first text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">$119 trillion</dd>
               </div>
               <div className="mx-auto flex max-w-xs flex-col gap-y-4">
                 <dt className="text-base/7 text-gray-600">New users annually</dt>
