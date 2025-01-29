@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const User = require('./models/usersModel');
 const Post = require('./models/post');
 const Forum = require('./models/forum');
+const Refugee = require('./models/refugee');
 const axios = require('axios');
 const path = require('path');
 const Dashboard=require('./models/ngoDashboardModel')
@@ -36,43 +37,6 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
-// Socket.IO connection
-io.on('connection', (socket) => {
-    console.log('A user connected:', socket.id);
-
-    // User login to associate their socket ID
-    socket.on('login', (userId) => {
-        activeUsers.set(userId, socket.id);
-        console.log(`${userId} is now online.`);
-    });
-
-    // Send a message based on user selection
-    socket.on('sendMessage', async ({ sender, receiver, message }) => {
-        // Save message to the database
-        const newMessage = new Message({ sender, receiver, message });
-        await newMessage.save();
-
-        // Emit message to the receiver if they're online
-        const receiverSocketId = activeUsers.get(receiver);
-        if (receiverSocketId) {
-            io.to(receiverSocketId).emit('receiveMessage', newMessage);
-        } else {
-            console.log(`User ${receiver} is offline. Message saved to database.`);
-        }
-    });
-
-    // Remove user from activeUsers on disconnect
-    socket.on('disconnect', () => {
-        for (let [userId, socketId] of activeUsers.entries()) {
-            if (socketId === socket.id) {
-                activeUsers.delete(userId);
-                console.log(`User ${userId} disconnected.`);
-                break;
-            }
-        }
-    });
-});
-
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URL)
     .then(() => {
@@ -89,6 +53,7 @@ const chatbotRouter = require('./routers/chatbotRouter');
 const postRouter = require('./routers/postRouter');
 const ngoRouter = require('./routers/ngoDashboardRouter');
 const forumRouter = require('./routers/forumRouter');
+const refugeeRouter = require('./routers/refugeeRouter');
 
 // Routes
 app.use('/uploads', express.static(path.join(__dirname, './uploads')));

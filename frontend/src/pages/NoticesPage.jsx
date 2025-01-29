@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { AiOutlineExclamationCircle, AiOutlineCheckCircle } from 'react-icons/ai';  // Importing React Icons
 import NoticeForm from '../components/forms/NoticeForm';
 import { useNavigate } from 'react-router-dom';
+import Chatbot from '../components/chats/Chatbot';
 
 // Utility function to format the timestamp into "X hours ago" or "X days ago"
 const timeAgo = (timestamp) => {
@@ -40,7 +41,7 @@ const NoticesPage = () => {
     };
 
     return (
-        <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md my-4 border-1 border-gray-200">
+        <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md my-4 border-1 border-gray-200 relative">
             <h2 className="text-2xl font-semibold text-center mb-6">Notices</h2>
             <button className="bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-300 ease-in-out shadow-md hover:shadow-lg"
                 onClick={handleButtonClick}>
@@ -86,6 +87,7 @@ const NoticesPage = () => {
                     </li>
                 ))}
             </ul>
+            <Chatbot />
         </div>
     );
 };
