@@ -7,7 +7,7 @@ const upload = require('../middlewares/upload');
 
 // Signup Controller
 exports.signup = async (req, res) => {
-    const { email, password, phone, username} = req.body;
+    const { email, password, phone, username,userType} = req.body;
     
     try {
         const { error, value } = signupSchema.validate({ email, password });
@@ -31,6 +31,7 @@ exports.signup = async (req, res) => {
             password: hashedPassword,
             phone,
             username,
+            userType
         });
 
         const result = await newUser.save();
@@ -79,6 +80,12 @@ exports.signin = async (req, res) => {
             .json({
                 success: true,
                 token,
+                user:{
+                    email: existingUser.email,
+                    username: existingUser.username,
+                    phone: existingUser.phone,
+                    userType: existingUser.userType
+                },
                 message: "Logged in successfully"
             })
     } catch (error) {
@@ -162,32 +169,30 @@ exports.verifyVerificationCode = async (req, res) => {
 // File Upload Route for Documents
 exports.uploadDocuments = async (req, res) => {
     const { userId } = req.params;
-
-    // Get the uploaded files from the request
-    const document1 = req.files.document1 ? req.files.document1[0].filename : null;
-    const document2 = req.files.document2 ? req.files.document2[0].filename : null;
-
+    
     try {
-        // Find the user by ID
         const user = await User.findById(userId);
         if (!user) {
-            return res.status(404).json({ message: 'User not found' });
+            return res.status(404).json({ message: "User not found" });
         }
 
-        // Update the user with the document file names
-        user.documents.document1 = document1;
-        user.documents.document2 = document2;
+        // Ensure documents field exists in user schema
+        if (!user.documents) {
+            user.documents = {};
+        }
 
-        // Save the updated user
+        user.documents.document1 = req.files?.document1?.[0]?.filename || user.documents.document1;
+        user.documents.document2 = req.files?.document2?.[0]?.filename || user.documents.document2;
+
         await user.save();
 
         res.status(200).json({
             success: true,
-            message: 'Documents uploaded successfully',
+            message: "Documents uploaded successfully",
             user,
         });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: "Internal server error." });
     }
 };

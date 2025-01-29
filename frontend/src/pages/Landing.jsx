@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react';
 import { Menu, X, AlertTriangle, Globe, Brain, Clock } from 'lucide-react';
 import Card from '../components/Card';
 import Testimonials from '../components/Testimonials';
+import EarthCanvas from '../components/Earth';
+import { useNavigate } from 'react-router-dom';
 
 const Landing = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);

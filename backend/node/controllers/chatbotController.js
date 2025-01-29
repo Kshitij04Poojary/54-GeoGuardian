@@ -8,7 +8,7 @@ const handleChat = async (req, res) => {
     }
 
     try {
-        const aiResponse = await startChatSession(query);
+        const aiResponse = await startChatSession(query+"The user is in India so answer accordingly.");
         res.status(200).json({ reply: aiResponse });
     } catch (error) {
         console.error("Error in handleChat:", error);

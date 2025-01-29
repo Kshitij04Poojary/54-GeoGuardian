@@ -7,9 +7,11 @@ const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const User = require('./models/usersModel');
 const Post = require('./models/post');
-const Ngo = require('./models/ngoDashboardModel');
+const Forum = require('./models/forum');
 const axios = require('axios');
 const path = require('path');
+const Dashboard=require('./models/ngoDashboardModel')
+const ngoDashboardRouter = require("./routers/ngoDashboardRouter");
 
 require('dotenv').config();
 
@@ -28,7 +30,7 @@ const io = new Server(server, {
 const activeUsers = new Map();
 
 // Middleware
-app.use(cors());
+app.use(cors({origin:"http://localhost:5173"}))
 app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
@@ -86,6 +88,7 @@ const broadcastRouter = require('./routers/broadcastRouter');
 const chatbotRouter = require('./routers/chatbotRouter');
 const postRouter = require('./routers/postRouter');
 const ngoRouter = require('./routers/ngoDashboardRouter');
+const forumRouter = require('./routers/forumRouter');
 
 // Routes
 app.use('/uploads', express.static(path.join(__dirname, './uploads')));
@@ -94,11 +97,9 @@ app.use('/api/broadcast', broadcastRouter);
 app.use("/api/chatbot", chatbotRouter);
 app.use('/api/posts', postRouter);
 app.use('/api/ngo', ngoRouter);
+app.use('/api/forum', forumRouter);
 
-// // Test route
-// app.get('/', (req, res) => {
-//     res.json({ message: "Hello from the server" });
-// });
+app.use("/api/dashboard", ngoDashboardRouter);
 
 app.get('/search-users', async (req, res) => {
     try {

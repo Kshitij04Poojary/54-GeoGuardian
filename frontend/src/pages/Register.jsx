@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Upload } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Upload, Eye, EyeOff } from 'lucide-react';  // Add icons for show/hide password
+import axios from 'axios'
 
 function Register() {
     const [step, setStep] = useState(1);
@@ -12,8 +13,9 @@ function Register() {
         userType: 'Citizen',
         phone: '',
     });
-    const [idProof, setIdProof] = useState(null);
+    const [organizationCertificate, setOrganizationCertificate] = useState(null);
     const [addressProof, setAddressProof] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);  // State for toggling password visibility
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -26,8 +28,8 @@ function Register() {
     const handleFileUpload = (type, e) => {
         if (e.target.files.length > 0) {
             const file = e.target.files[0];
-            if (type === 'id') {
-                setIdProof(file);
+            if (type === 'organization') {
+                setOrganizationCertificate(file);
             } else if (type === 'address') {
                 setAddressProof(file);
             }
@@ -35,19 +37,57 @@ function Register() {
     };
 
     const removeDocument = (type) => {
-        if (type === 'id') {
-            setIdProof(null);
+        if (type === 'organization') {
+            setOrganizationCertificate(null);
         } else if (type === 'address') {
             setAddressProof(null);
         }
     };
-
-    const handleSubmit = (e) => {
+    const navigate = useNavigate();
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Form submitted:", { formData, idProof, addressProof });
-        // Submit form logic here
-    };
+    
+        try {
+            const signupResponse = await axios.post("http://localhost:8000/api/auth/signup", {
+                email: formData.email,
+                password: formData.password,
+                phone: formData.phone,
+                username: formData.username,
+                userType: formData.userType
+            });
+    
+            if (!signupResponse.data.success) {
+                alert("Signup failed: " + signupResponse.data.message);
+                return;
+            }
+    
+            const userId = signupResponse.data.result._id;
+    
+            if (formData.userType !== "Citizen") { 
+                const documentData = new FormData();
+                
+                if (formData.userType === "Admin" && organizationCertificate) {
+                    documentData.append("document1", organizationCertificate);
+                } 
+                if (formData.userType === "Organization" && addressProof) {
+                    documentData.append("document2", addressProof);
+                }
 
+                if (documentData.has("document1") || documentData.has("document2")) {
+                    await axios.post(`http://localhost:8000/api/upload-documents/${userId}`, documentData, {
+                        headers: { "Content-Type": "multipart/form-data" }
+                    });
+                }
+            }
+    
+            navigate("/login"); 
+    
+        } catch (error) {
+            console.error(error);
+            alert("Error occurred during signup or document upload.");
+        }
+    };
+    
     const isMultiStep = formData.userType === "NGO" || formData.userType === "Organization";
 
     return (
@@ -89,17 +129,31 @@ function Register() {
                                     </select>
                                 </div>
 
-                                {["username", "email", "password", "phone"].map((field) => (
+                                {["username", "email", "phone"].map((field) => (
                                     <div key={field}>
                                         <label className="block mb-1 text-sm font-medium text-gray-700">
                                             {field.charAt(0).toUpperCase() + field.slice(1)}
                                         </label>
-                                        <input type={field === "password" ? "password" : field === "email" ? "email" : "text"}
+                                        <input type={field === "email" ? "email" : "text"}
                                             name={field} value={formData[field]} onChange={handleInputChange}
                                             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                                             placeholder={`Enter your ${field}`} required />
                                     </div>
                                 ))}
+
+                                <div>
+                                    <label className="block mb-1 text-sm font-medium text-gray-700">Password</label>
+                                    <div className="relative">
+                                        <input type={showPassword ? "text" : "password"}
+                                            name="password" value={formData.password} onChange={handleInputChange}
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                            placeholder="Enter your password" required />
+                                        <button type="button" onClick={() => setShowPassword(!showPassword)}
+                                            className="absolute right-3 top-3 text-gray-400">
+                                            {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+                                        </button>
+                                    </div>
+                                </div>
 
                                 <div className="my-4">
                                     <label className="flex items-center">
@@ -110,7 +164,7 @@ function Register() {
                                     </label>
                                 </div>
 
-                                <button type="submit" className="w-full py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md transition-colors">
+                                <button type="submit" className="w-full py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md transition-colors cursor-pointer">
                                     {isMultiStep ? "Next" : "Submit"}
                                 </button>
                             </form>
@@ -124,23 +178,23 @@ function Register() {
 
                             <form onSubmit={handleSubmit} className="space-y-6">
                                 <div className="space-y-4">
-                                    <label className="block text-sm font-medium text-gray-700">ID Proof</label>
+                                    <label className="block text-sm font-medium text-gray-700">Organization Certificate</label>
                                     <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
-                                        {!idProof ? (
+                                        {!organizationCertificate ? (
                                             <div className="text-center">
                                                 <Upload className="mx-auto h-8 w-8 text-gray-400" />
                                                 <label className="mt-2 cursor-pointer block">
-                                                    <input type="file" className="hidden" onChange={(e) => handleFileUpload("id", e)}
+                                                    <input type="file" className="hidden" onChange={(e) => handleFileUpload("organization", e)}
                                                         accept=".pdf,.jpg,.jpeg,.png" />
                                                     <span className="inline-block px-4 py-2 bg-gray-100 text-sm text-gray-700 rounded-md hover:bg-gray-200">
-                                                        Upload ID Proof
+                                                        Upload Organization Certificate
                                                     </span>
                                                 </label>
                                             </div>
                                         ) : (
                                             <div className="flex items-center justify-between bg-gray-50 p-2 rounded">
-                                                <span className="text-sm truncate">{idProof.name}</span>
-                                                <button type="button" onClick={() => removeDocument("id")}
+                                                <span className="text-sm truncate">{organizationCertificate.name}</span>
+                                                <button type="button" onClick={() => removeDocument("organization")}
                                                     className="text-red-500 hover:text-red-700 text-sm">
                                                     Remove
                                                 </button>
@@ -151,11 +205,11 @@ function Register() {
 
                                 <div className="flex gap-4">
                                     <button type="button" onClick={() => setStep(1)}
-                                        className="flex-1 py-2 px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-md transition-colors">
+                                        className="flex-1 py-2 px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-md transition-colors cursor-pointer">
                                         Back
                                     </button>
                                     <button type="submit"
-                                        className="flex-1 py-2 px-4 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-md transition-colors">
+                                        className="flex-1 py-2 px-4 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-md transition-colors cursor-pointer">
                                         Submit
                                     </button>
                                 </div>

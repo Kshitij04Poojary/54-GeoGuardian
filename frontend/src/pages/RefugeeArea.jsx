@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Chatbot from '../components/chats/Chatbot';
 
 const RefugeeArea = () => {
   const areas = [
@@ -9,7 +10,7 @@ const RefugeeArea = () => {
   ];
 
   return (
-    <div className="mx-auto p-5 text-center bg-gray-100 rounded-lg shadow-md w-full h-100">
+    <div className="mx-auto p-5 text-center bg-gray-100 rounded-lg shadow-md w-full h-100 relative">
       <h1 className="text-4xl mb-5 text-gray-800">Refugee Areas</h1>
       <div className="flex flex-col gap-2">
         {areas.map((area) => (
@@ -20,6 +21,7 @@ const RefugeeArea = () => {
           </Link>
         ))}
       </div>
+      <Chatbot />
     </div>
   );
 };

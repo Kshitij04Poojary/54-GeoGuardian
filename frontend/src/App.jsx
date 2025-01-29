@@ -14,16 +14,16 @@ import FirstAidPage from './pages/FirstAidPage';
 
 // Layout
 import SidebarLayout from './layout/SidebarLayout';
-import ChatLayout from './layout/ChatLayout';
 import NoticeForm from './components/forms/NoticeForm';
 import NoticesPage from './pages/NoticesPage';
 import RefugeeArea from './pages/RefugeeArea';
 import RefugeeAreaDetails from './pages/RefugeeAreaDetails';
+import { UserContextProvider } from './context/UserContext';
+import UpdateDashboard from './pages/UpdateDashboard';
 function App() {
 
   return (
-    <>
-      {/* <EarthCanvas/> */}
+    <UserContextProvider>
       <Routes>
         <Route index path='/' element={<Landing />} />
         <Route path='/login' element={<Login />} />
@@ -35,14 +35,13 @@ function App() {
             <Route path='map' element={<Map />} />
             <Route path='aid' element={<FirstAidPage />} />
             <Route path='analytics' element={<AdminDashboard />} />
-            <Route element={<ChatLayout />} >
-              <Route path='collab' element={<ChatWindow />} />
-            </Route>
+            <Route path='forum' element={<ChatWindow />} />
+            <Route path='refugeearea' element={<RefugeeArea />} />
+            <Route path='refugeearea/:id' element={<RefugeeAreaDetails />} />
         </Route>
-        <Route path='/refugeearea' element={<RefugeeArea />} />
-        <Route path='/refugeearea/:id' element={<RefugeeAreaDetails />} />
+        <Route path='/update-dashboard' element={<UpdateDashboard />} />
       </Routes >
-    </>
+    </UserContextProvider>
   )
 }
 
