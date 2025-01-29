@@ -44,7 +44,7 @@ function App() {
         </Route>
 
         <Route path='/update-dashboard' element={<UpdateDashboard />} />
-        <Route path='/cyclones' element={<CoordinateDisplay/>}/>
+        <Route path='/geoanalysis' element={<CoordinateDisplay/>}/>
       </Routes >
     </UserContextProvider>
   )
