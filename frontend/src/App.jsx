@@ -9,7 +9,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import AdminDashboard from './pages/AdminDashboard';
-import EarthCanvas from './components/Earth';
+import Landing from './pages/Landing';
+import FirstAidPage from './pages/FirstAidPage';
 
 // Layout
 import SidebarLayout from './layout/SidebarLayout';
@@ -23,12 +24,13 @@ function App() {
     <>
       {/* <EarthCanvas/> */}
       <Routes>
+        <Route index path='/' element={<Landing />} />
         <Route index path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route path='/notices' element={<NoticesPage />} />
         <Route path='/notices/add' element={<NoticeForm />} />
-
+        <Route path='/firstaid' element={<FirstAidPage />} />
         <Route path='/dashboard' element={<SidebarLayout />}>
           <Route path='ngo' >
             <Route path='map' element={<Map />} />
