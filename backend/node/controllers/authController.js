@@ -3,7 +3,7 @@ const User = require('../models/usersModel');
 const { doHash, doHashValidation, hmacProcess } = require("../utils/hashing");
 const jwt = require('jsonwebtoken');
 const transport = require('../middlewares/sendMail');
-const upload = require('../middlewares/upload'); // Import Multer middleware
+const upload = require('../middlewares/upload');
 
 // Signup Controller
 exports.signup = async (req, res) => {
@@ -29,7 +29,7 @@ exports.signup = async (req, res) => {
         const newUser = new User({
             email,
             password: hashedPassword,
-            phone, // Add phone to the newUser object
+            phone,
             username,
         });
 

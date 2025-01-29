@@ -1,136 +1,177 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { Upload } from 'lucide-react';
 
 function Register() {
-    const [username, setUsername] = useState('');
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [userType, setUserType] = useState('Citizen'); // Default selection
-    const [phone, setPhone] = useState('');
+    const [step, setStep] = useState(1);
+    const [formData, setFormData] = useState({
+        username: '',
+        name: '',
+        email: '',
+        password: '',
+        userType: 'Citizen',
+        phone: '',
+    });
+    const [idProof, setIdProof] = useState(null);
+    const [addressProof, setAddressProof] = useState(null);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        // Handle registration logic here
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
     };
 
+    const handleFileUpload = (type, e) => {
+        if (e.target.files.length > 0) {
+            const file = e.target.files[0];
+            if (type === 'id') {
+                setIdProof(file);
+            } else if (type === 'address') {
+                setAddressProof(file);
+            }
+        }
+    };
+
+    const removeDocument = (type) => {
+        if (type === 'id') {
+            setIdProof(null);
+        } else if (type === 'address') {
+            setAddressProof(null);
+        }
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log("Form submitted:", { formData, idProof, addressProof });
+        // Submit form logic here
+    };
+
+    const isMultiStep = formData.userType === "NGO" || formData.userType === "Organization";
+
     return (
-        <div className="min-h-screen flex items-center justify-center bg-[#EDF2F7]">
+        <div className="min-h-screen flex items-center justify-center bg-[#EDF2F7] p-6">
             <div className="w-full max-w-md">
-                <div className="bg-white shadow-md rounded-lg p-8">
-                    {/* Register Card */}
-                    <div className="text-center mb-6">
-                        <h2 className="text-3xl font-bold mt-2">Sign Up</h2>
+                {isMultiStep && (
+                    <div className="mb-6 flex items-center justify-center">
+                        <div className="flex items-center">
+                            <div className={`w-12 h-12 rounded-full flex items-center justify-center text-sm font-semibold 
+                          ${step === 1 ? 'bg-blue-500 text-white' : 'bg-green-500 text-white'}`}> 1 </div>
+                        </div>
+                        <div className="w-16 h-1 bg-gray-300 relative flex items-center">
+                            <div className={`h-1 ${step >= 2 ? 'bg-green-500' : 'bg-gray-300'} w-full`}></div>
+                        </div>
+                        <div className="flex items-center">
+                            <div className={`w-12 h-12 rounded-full flex items-center justify-center text-sm font-semibold 
+                          ${step === 2 ? 'bg-blue-500 text-white' : step === 1 ? 'bg-gray-300 text-gray-600' : 'bg-green-500 text-white'}`}> 2 </div>
+                        </div>
                     </div>
-                    <form id="formAuthentication" className="space-y-6" onSubmit={handleSubmit}>
-                        
-                        {/* User Type Dropdown */}
-                        <div>
-                            <label htmlFor="userType" className="block mb-1 text-sm font-medium text-gray-700">
-                                User Type
-                            </label>
-                            <select
-                                id="userType"
-                                name="userType"
-                                value={userType}
-                                onChange={(e) => setUserType(e.target.value)}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                required
-                            >
-                                <option value="Admin">Admin</option>
-                                <option value="Organization">Organization</option>
-                                <option value="NGO">NGO</option>
-                                <option value="Citizen">Citizen</option>
-                            </select>
-                        </div>
+                )}
 
-                        {/* Username Input */}
-                        <div>
-                            <label htmlFor="username" className="block mb-1 text-sm font-medium text-gray-700">Username</label>
-                            <input
-                                type="text"
-                                className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                id="username"
-                                name="username"
-                                value={username}
-                                onChange={e => setUsername(e.target.value)}
-                                placeholder="Enter your username"
-                                required
-                            />
-                        </div>
+                <div className="bg-white shadow-md rounded-lg p-8">
+                    {!isMultiStep || step === 1 ? (
+                        <>
+                            <div className="text-center mb-6">
+                                <h2 className="text-3xl font-bold">Sign Up</h2>
+                                <p className="text-gray-600 mt-2">Enter your personal details</p>
+                            </div>
 
-                        {/* Email Input */}
-                        <div>
-                            <label htmlFor="email" className="block mb-1 text-sm font-medium text-gray-700">Email</label>
-                            <input
-                                type="email"
-                                className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                id="email"
-                                name="email"
-                                value={email}
-                                onChange={e => setEmail(e.target.value)}
-                                placeholder="Enter your email"
-                                required
-                            />
-                        </div>
+                            <form className="space-y-6" onSubmit={isMultiStep ? (e) => { e.preventDefault(); setStep(2); } : handleSubmit}>
+                                <div>
+                                    <label className="block mb-1 text-sm font-medium text-gray-700">User Type</label>
+                                    <select name="userType" value={formData.userType} onChange={handleInputChange}
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                        <option value="Admin">Admin</option>
+                                        <option value="Organization">Organization</option>
+                                        <option value="NGO">NGO</option>
+                                        <option value="Citizen">Citizen</option>
+                                    </select>
+                                </div>
 
-                        {/* Password Input */}
-                        <div>
-                            <label htmlFor="password" className="block mb-1 text-sm font-medium text-gray-700">Password</label>
-                            <input
-                                type="password"
-                                className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                id="password"
-                                name="password"
-                                value={password}
-                                onChange={e => setPassword(e.target.value)}
-                                placeholder="••••••••••"
-                                required
-                            />
-                        </div>
+                                {["username", "email", "password", "phone"].map((field) => (
+                                    <div key={field}>
+                                        <label className="block mb-1 text-sm font-medium text-gray-700">
+                                            {field.charAt(0).toUpperCase() + field.slice(1)}
+                                        </label>
+                                        <input type={field === "password" ? "password" : field === "email" ? "email" : "text"}
+                                            name={field} value={formData[field]} onChange={handleInputChange}
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                            placeholder={`Enter your ${field}`} required />
+                                    </div>
+                                ))}
 
-                        {/* Phone Number Input */}
-                        <div>
-                            <label htmlFor="phone" className="block mb-1 text-sm font-medium text-gray-700">Phone Number</label>
-                            <input
-                                type="tel"
-                                className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                id="phone"
-                                name="phone"
-                                value={phone}
-                                onChange={e => setPhone(e.target.value)}
-                                placeholder="Enter your phone number"
-                                required
-                            />
-                        </div>
+                                <div className="my-4">
+                                    <label className="flex items-center">
+                                        <input type="checkbox" className="form-checkbox text-blue-600" required />
+                                        <span className="ml-2 text-sm text-gray-700">
+                                            I agree to the <Link to="#" className="text-blue-500 mx-1">privacy policy & terms</Link>
+                                        </span>
+                                    </label>
+                                </div>
 
-                        {/* Agreement Checkbox */}
-                        <div className="my-4">
-                            <label className="flex items-center">
-                                <input type="checkbox" className="form-checkbox text-blue-600" required />
-                                <span className="ml-2 text-sm text-gray-700">
-                                    I agree to the
-                                    <Link to="#" className="text-blue-500 mx-1">privacy policy & terms</Link>
-                                </span>
-                            </label>
-                        </div>
+                                <button type="submit" className="w-full py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md transition-colors">
+                                    {isMultiStep ? "Next" : "Submit"}
+                                </button>
+                            </form>
+                        </>
+                    ) : (
+                        <>
+                            <div className="text-center mb-6">
+                                <h2 className="text-3xl font-bold">Upload Documents</h2>
+                                <p className="text-gray-600 mt-2">Please provide verification documents</p>
+                            </div>
 
-                        {/* Submit Button */}
-                        <button
-                            type="submit"
-                            className="w-full py-2 px-4 bg-[#3182ce] hover:bg-[#2B6CB0] text-white font-semibold rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-                        >
-                            Sign up
-                        </button>
-                    </form>
+                            <form onSubmit={handleSubmit} className="space-y-6">
+                                <div className="space-y-4">
+                                    <label className="block text-sm font-medium text-gray-700">ID Proof</label>
+                                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
+                                        {!idProof ? (
+                                            <div className="text-center">
+                                                <Upload className="mx-auto h-8 w-8 text-gray-400" />
+                                                <label className="mt-2 cursor-pointer block">
+                                                    <input type="file" className="hidden" onChange={(e) => handleFileUpload("id", e)}
+                                                        accept=".pdf,.jpg,.jpeg,.png" />
+                                                    <span className="inline-block px-4 py-2 bg-gray-100 text-sm text-gray-700 rounded-md hover:bg-gray-200">
+                                                        Upload ID Proof
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        ) : (
+                                            <div className="flex items-center justify-between bg-gray-50 p-2 rounded">
+                                                <span className="text-sm truncate">{idProof.name}</span>
+                                                <button type="button" onClick={() => removeDocument("id")}
+                                                    className="text-red-500 hover:text-red-700 text-sm">
+                                                    Remove
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
 
-                    {/* Sign In Link */}
-                    <p className="text-center text-sm mt-6">
-                        <span>Already have an account?</span>
-                        <Link to="/login" className="text-blue-500 hover:underline mx-1">Sign in instead</Link>
-                    </p>
+                                <div className="flex gap-4">
+                                    <button type="button" onClick={() => setStep(1)}
+                                        className="flex-1 py-2 px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-md transition-colors">
+                                        Back
+                                    </button>
+                                    <button type="submit"
+                                        className="flex-1 py-2 px-4 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-md transition-colors">
+                                        Submit
+                                    </button>
+                                </div>
+                            </form>
+                        </>
+                    )}
                 </div>
+
+                {!isMultiStep && (
+                    <div className="mt-4 text-center text-sm text-gray-600">
+                        Already have an account?
+                        <Link to="/login" className="text-blue-500 hover:underline ml-1">
+                            Sign in
+                        </Link>
+                    </div>
+                )}
             </div>
         </div>
     );

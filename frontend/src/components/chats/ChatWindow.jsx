@@ -4,7 +4,7 @@ import { IoMdMore } from "react-icons/io";
 
 const ChatWindow = () => {
     return (
-        <div className="flex-1 flex flex-col justify-between bg-white h-screen p-8">
+        <div className="flex-1 flex flex-col justify-between bg-white h-screen">
             {/* Header with Contact Name */}
             <div className="flex items-center justify-between p-4 border-b border-gray-300 bg-[#F9FAFC]">
                 <div className='flex'>

@@ -47,11 +47,11 @@ const userSchema = mongoose.Schema({
     documents: {
         document1: {
             type: String,
-            default: null // Will store the file name of the uploaded document
+            default: null
         },
         document2: {
             type: String,
-            default: null // Will store the file name of the uploaded document
+            default: null
         }
     }
 }, {
