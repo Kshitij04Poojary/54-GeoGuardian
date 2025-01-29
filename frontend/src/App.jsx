@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 
 // components
-import ChatWindow from './components/chats/Forum';
+import Forum from './components/chats/Forum';
 import Map from './components/Map';
 
 // pages
@@ -14,7 +14,7 @@ import FirstAidPage from './pages/FirstAidPage';
 
 // Layout
 import SidebarLayout from './layout/SidebarLayout';
-import NoticeForm from './components/forms/NoticeForm';
+
 import NoticesPage from './pages/NoticesPage';
 import RefugeeArea from './pages/RefugeeArea';
 import RefugeeAreaDetails from './pages/RefugeeAreaDetails';
@@ -22,7 +22,7 @@ import RefugeeAreaDetails from './pages/RefugeeAreaDetails';
 import { UserContextProvider } from './context/UserContext';
 import UpdateDashboard from './pages/UpdateDashboard';
 import CoordinateDisplay from './pages/CoordinateDisplay';
-
+import ContactForm from './components/ContactForm';
 function App() {
 
   return (
@@ -38,13 +38,14 @@ function App() {
             <Route path='notices' element={<NoticesPage />} />
             <Route path='aid' element={<FirstAidPage />} />
             <Route path='analytics' element={<AdminDashboard />} />
-            <Route path='forum' element={<ChatWindow />} />
+            <Route path='forum' element={<Forum />} />
             <Route path='refugeearea' element={<RefugeeArea />} />
             <Route path='refugeearea/:id' element={<RefugeeAreaDetails />} />
             <Route path='geoanalysis' element={<CoordinateDisplay/>}/>
         </Route>
 
         <Route path='/update-dashboard' element={<UpdateDashboard />} />
+        <Route path='/contact' element={<ContactForm/>}/>
         
       </Routes >
     </UserContextProvider>
