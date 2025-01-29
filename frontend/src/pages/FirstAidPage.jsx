@@ -1,6 +1,7 @@
 import React from "react";
 import FirstAidCard from "../components/FirstAidCard";
 import firstAidData from "../assets/firstAidData";
+import Chatbot from "../components/chats/Chatbot";
 
 const FirstAidPage = () => {
   const [selectedCard, setSelectedCard] = React.useState(firstAidData[0]);
@@ -70,6 +71,7 @@ const FirstAidPage = () => {
           </div>
         ))}
       </div>
+      <Chatbot />
     </div>
   );
 };

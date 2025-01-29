@@ -63,7 +63,7 @@ app.use("/api/chatbot", chatbotRouter);
 app.use('/api/posts', postRouter);
 app.use('/api/ngo', ngoRouter);
 app.use('/api/forum', forumRouter);
-
+app.use('/api/refugee', refugeeRouter);
 app.use("/api/dashboard", ngoDashboardRouter);
 
 app.get('/search-users', async (req, res) => {

@@ -13,6 +13,7 @@ import RadialChart from "../components/charts/RadicalChart";
 import MultipleRadicalChart from "../components/charts/MultipleRadicalChart";
 import TimesSeries from "../components/charts/TimesSeries";
 import WorkingHoursChart from "../components/charts/WorkingHoursChart";
+import Chatbot from "../components/chats/Chatbot";
 
 const GradientCard = ({ icon: Icon, value, label }) => (
   <div className="bg-white p-6 rounded-xl shadow-lg">
@@ -171,6 +172,7 @@ const AdminDashboard = () => {
       >
         Update Dashboard
       </button>
+      <Chatbot />
     </div>
   );
 };
