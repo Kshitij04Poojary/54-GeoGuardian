@@ -6,7 +6,7 @@ const FirstAidCard = ({ id, title, image, onClick }) => {
   return (
     <div 
       onClick={() => onClick(id)}
-      className="group relative w-full h-80 overflow-hidden rounded-xl cursor-pointer border-2 border-transparent transition-all duration-300 hover:border-blue-500 bg-white shadow-lg"
+      className="group relative w-full h-full overflow-hidden rounded-xl cursor-pointer border-2 border-transparent transition-all duration-300 hover:border-blue-500 bg-white shadow-lg"
     >
       {/* Loading placeholder */}
       {!imageLoaded && (

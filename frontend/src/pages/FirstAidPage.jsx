@@ -70,7 +70,7 @@ const FirstAidPage = () => {
             Learn how to stay safe during a {selectedCard.title}. Follow the steps below:
           </p>
           {/* Instructions */}
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-2 pb-16">
             {selectedCard.instructions.map((instruction, index) => (
               <div
                 key={index}
