@@ -79,7 +79,7 @@ const ChatWindow = () => {
     return (
         <div className="h-screen flex flex-col bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
             {/* Header */}
-            <div className="px-6 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 shadow-lg">
+            <div className="px-6 py-4 bg-gradient-to-r from-indigo-400 to-purple-400 shadow-lg">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                         <MessageCircle className="h-6 w-6 text-white" />
@@ -89,7 +89,7 @@ const ChatWindow = () => {
                         <div className="relative">
                             <Filter className="h-5 w-5 text-indigo-600 absolute left-3 top-1/2 transform -translate-y-1/2" />
                             <select
-                                className="pl-10 pr-4 py-2 rounded-full border-2 border-indigo-100 focus:outline-none focus:border-indigo-300 focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 text-sm bg-white shadow-md transition-all duration-200 hover:border-indigo-200"
+                                className="pl-10 pr-4 py-2 cursor-pointer rounded-full border-2 border-indigo-100 focus:outline-none focus:border-indigo-300 focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 text-sm bg-white transition-all duration-200 hover:border-indigo-200"
                                 onChange={handleFilterChange}
                                 value={filter}
                             >
@@ -111,7 +111,7 @@ const ChatWindow = () => {
                     .map((post, index) => (
                         <div
                             key={index}
-                            className="group relative p-4 bg-white rounded-2xl shadow-md border border-indigo-50 hover:shadow-lg transition-all duration-300 hover:border-indigo-100"
+                            className="group relative cursor-pointer p-4 bg-white rounded-2xl border border-indigo-50 transition-all duration-300 hover:border-indigo-100"
                         >
                             <div className="flex items-center space-x-3 mb-3">
                                 <div className="h-10 w-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center transform transition-transform group-hover:scale-110">
@@ -157,10 +157,10 @@ const ChatWindow = () => {
                     />
                     <button
                         type="submit"
-                        className={`px-8 py-4 rounded-full flex items-center space-x-2 transition-all duration-200 shadow-md ${
+                        className={`px-8 py-4 rounded-full cursor-pointer flex items-center space-x-2 transition-all duration-200 shadow-md ${
                             user?.user?.userType === "Citizen"
                                 ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                                : "bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white transform hover:scale-105"
+                                : "bg-gradient-to-r from-indigo-400 to-purple-400 hover:from-indigo-700 hover:to-purple-700 text-white transform hover:scale-105"
                         }`}
                         disabled={user?.user?.userType === "Citizen"}
                     >

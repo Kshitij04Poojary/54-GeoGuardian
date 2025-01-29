@@ -3,7 +3,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Map,
   Users,
-  LineChart
+  LineChart,
+  Globe
 } from 'lucide-react';
 
 const Sidebar = ({ userRole = "admin" }) => {
@@ -42,10 +43,25 @@ const Sidebar = ({ userRole = "admin" }) => {
   );
 
   return (
-    <div className="h-screen w-[18%] bg-gray-50 flex flex-col">
-      <div className="p-4 text-gray-600">
-        <h2 className="font-medium mb-4">GeoGuardian</h2>
+    <div className="h-screen w-[18%] bg-gradient-to-b from-gray-50 to-white flex flex-col">
+      {/* Fancy Title Section */}
+      <div className="p-6">
+        <div className="flex items-center gap-2">
+          <Globe className="w-6 h-6 animate-pulse" />
+          <div className="flex flex-col">
+            <h2 className="font-bold text-2xl text-grey-500  racking-wide">
+              Geo
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-yellow-600">
+                Guardian
+              </span>
+            </h2>
+            <div className="h-0.5 w-full bg-gradient-to-r from-white/50 to-transparent mt-1" />
+          </div>
+        </div>
+      </div>
 
+      {/* Navigation Section */}
+      <div className="p-4 text-gray-600">
         <nav className="space-y-1">
           {filteredRoutes.map((route, index) => {
             const isActive = location.pathname === route.path;
@@ -56,13 +72,13 @@ const Sidebar = ({ userRole = "admin" }) => {
                 onClick={() => navigate(route.path)}
                 className={`w-full flex items-center justify-between py-2 px-3 rounded-lg transition-colors cursor-pointer
                   ${isActive
-                    ? 'bg-violet-100 text-violet-700'
+                    ? 'bg-indigo-500 text-white'
                     : 'text-gray-700 hover:bg-gray-100'
                   }`}
               >
                 <div className="flex items-center gap-3">
                   <route.icon className="w-5 h-5" />
-                  <span className="text-sm">{route.name}</span>
+                  <span className="text-m">{route.name}</span>
                 </div>
               </button>
             );
