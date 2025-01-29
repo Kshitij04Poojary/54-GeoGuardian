@@ -7,6 +7,7 @@ import {
   Cross,
   Globe,
   Tent,
+  ScrollText,
   LogOut
 } from 'lucide-react';
 import { UserContext } from "../context/UserContext";
@@ -33,6 +34,12 @@ const Sidebar = () => {
       path: "/dashboard/map",
       allowedFor: ["Admin", "Citizen", "Organization"],
       icon: Map
+    },
+    {
+      name: "Notices",
+      path: "/notices",
+      allowedFor: ["Admin", "NGO", "Organization", "Citizen"],
+      icon: ScrollText
     },
     {
       name: "Forum",
