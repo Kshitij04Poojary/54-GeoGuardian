@@ -44,11 +44,7 @@ function App() {
         </Route>
 
         <Route path='/update-dashboard' element={<UpdateDashboard />} />
-
-        <Route path='/refugeearea' element={<RefugeeArea />} />
-        <Route path='/refugeearea/:id' element={<RefugeeAreaDetails />} />
         <Route path='/cyclones' element={<CoordinateDisplay/>}/>
-
       </Routes >
     </UserContextProvider>
   )
