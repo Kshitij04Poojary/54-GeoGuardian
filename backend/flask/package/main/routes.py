@@ -8,6 +8,8 @@ from PIL import Image
 from torchvision import transforms
 import torch
 import torch.nn as nn
+from sentinel import create_image
+import timm
 from fastai.vision.all import load_learner, PILImage
 
 # Blueprint for main routes
@@ -19,8 +21,8 @@ if hasattr(PosixPath, "_flavour") and hasattr(WindowsPath, "_flavour"):
 
 @main_bp.route('/cyclone/csv', methods=['GET', 'POST'])
 def cyclone_csv():
-    model = joblib.load("package/main/ml-models/model_lr_cyclone.pkl")
-    scaler = joblib.load("package/main/ml-models/scaler_cyclone.pkl")
+    model = joblib.load("package/main/ml-models/model_lr_cyclone (1).pkl")
+    scaler = joblib.load("package/main/ml-models/scaler_cyclone (1).pkl")
 
     data = request.get_json()
     if not data:
@@ -98,7 +100,12 @@ def landslide_csv():
 class CycloneIntensityModel(nn.Module):
     def __init__(self):
         super(CycloneIntensityModel, self).__init__()
-        # Define your layers here
+        self.model = timm.create_model('resnet18.a1_in1k', pretrained=True)
+        in_features = self.model.fc.in_features
+        self.model.fc = torch.nn.Linear(in_features, 1)
+
+    def forward(self, x):
+        return self.model(x)
 
 @main_bp.route('/cyclone/images', methods=['GET', 'POST'])
 def cyclone_images():
@@ -109,9 +116,10 @@ def cyclone_images():
     latitude = float(data.get('latitude'))
     longitude = float(data.get('longitude'))
 
+    create_image(lat=latitude, lon=longitude)
     model_path = "package/main/ml-models/cyclone_resnet18_simple.pth"
     model = CycloneIntensityModel()
-    model.load_state_dict(torch.load(model_path))
+    model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))
     model.eval()
 
     transform = transforms.Compose([
@@ -120,6 +128,7 @@ def cyclone_images():
     ])
 
     # Assuming `create_image` is defined elsewhere to generate an image
+    
     img_path = "sentinel_data/sentinel_image.png"
     image = Image.open(img_path).convert('RGB')
     image_tensor = transform(image).unsqueeze(0)
