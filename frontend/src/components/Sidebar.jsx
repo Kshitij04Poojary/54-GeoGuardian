@@ -7,7 +7,7 @@ import {
   Globe
 } from 'lucide-react';
 
-const Sidebar = ({ userRole = "admin" }) => {
+const Sidebar = ({ userRole = "Admin" }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -15,25 +15,25 @@ const Sidebar = ({ userRole = "admin" }) => {
     {
       name: "Analytics",
       path: "/dashboard/analytics",
-      allowedFor: ["admin", "ngo"],
+      allowedFor: ["Admin", "NGO"],
       icon: LineChart
     },
     {
       name: "Nearby help",
       path: "/dashboard/map",
-      allowedFor: ["admin", "user"],
+      allowedFor: ["Admin", "Citizen"],
       icon: Map
     },
     {
       name: "Forum",
-      path: "/dashboard/collab",
-      allowedFor: ["admin", "ngo"],
+      path: "/dashboard/forum",
+      allowedFor: ["Admin", "NGO", "Organization"],
       icon: Users
     },
     {
       name: "Aid",
       path: "/dashboard/aid",
-      allowedFor: ["admin", "refugee"],
+      allowedFor: ["Admin", "Citizen"],
       icon: Users
     }
   ];

@@ -35,7 +35,7 @@ function App() {
             <Route path='map' element={<Map />} />
             <Route path='aid' element={<FirstAidPage />} />
             <Route path='analytics' element={<AdminDashboard />} />
-            <Route path='collab' element={<ChatWindow />} />
+            <Route path='forum' element={<ChatWindow />} />
         </Route>
         <Route path='/refugeearea' element={<RefugeeArea />} />
         <Route path='/refugeearea/:id' element={<RefugeeAreaDetails />} />
