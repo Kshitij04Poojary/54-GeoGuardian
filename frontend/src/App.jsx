@@ -10,6 +10,7 @@ import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import AdminDashboard from './pages/AdminDashboard';
 import EarthCanvas from './components/Earth';
+import FirstAidPage from './pages/FirstAidPage';
 
 // Layout
 import SidebarLayout from './layout/SidebarLayout';
@@ -34,6 +35,7 @@ function App() {
           <Route path='refugee' />
         </Route>
       </Route>
+      <Route path='/firstaid' element={<FirstAidPage />} />  
     </Routes >
     </>
   )
