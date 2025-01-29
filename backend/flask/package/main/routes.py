@@ -2,7 +2,7 @@ import joblib
 import requests
 import base64
 from io import BytesIO
-from pathlib import WindowsPath, PosixPath
+from pathlib import WindowsPath
 from flask import Blueprint, request, jsonify
 from PIL import Image
 from torchvision import transforms
@@ -11,13 +11,14 @@ import torch.nn as nn
 from sentinel import create_image
 import timm
 from fastai.vision.all import load_learner, PILImage
-
+import pathlib
 # Blueprint for main routes
 main_bp = Blueprint('main_bp', __name__)
 
-# Ensure compatibility for file paths
-if hasattr(PosixPath, "_flavour") and hasattr(WindowsPath, "_flavour"):
-    PosixPath._flavour = WindowsPath._flavour
+# # Ensure compatibility for file paths
+# if hasattr(PosixPath, "_flavour") and hasattr(WindowsPath, "_flavour"):
+#     PosixPath._flavour = WindowsPath._flavour
+pathlib.PosixPath = pathlib.WindowsPath
 
 @main_bp.route('/cyclone/csv', methods=['GET', 'POST'])
 def cyclone_csv():
@@ -61,7 +62,7 @@ def cyclone_csv():
 
 @main_bp.route('/landslide/csv', methods=['GET', 'POST'])
 def landslide_csv():
-    model = joblib.load("package/main/ml-models/landslide_risk_prediction.pkl")
+    model = joblib.load("package/main/ml-models/landslide_risk_prediction (2).pkl")
     
     data = request.get_json()
     if not data:
