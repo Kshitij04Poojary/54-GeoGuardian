@@ -1,4 +1,7 @@
 import Chart from "react-apexcharts";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom"; 
 import { BsClockHistory } from "react-icons/bs";
 import { FaAppleAlt, FaUsers, FaTshirt, FaFirstAid, FaRupeeSign, FaCheckCircle, FaHandsHelping, FaMapPin } from 'react-icons/fa';
 // import building from "../assets/img/building.png";
@@ -39,6 +42,25 @@ const GradientCard = ({ icon: Icon, value, label }) => (
 );
 
 const AdminDashboard = () => {
+  const navigate = useNavigate();
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const response = await axios.get("http://localhost:8000/api/dashboard");
+            setData(response.data);
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    fetchData();
+}, []);
   const chartOptions = {
     series: [
       {
@@ -95,12 +117,12 @@ const AdminDashboard = () => {
   return (
 
     <div className="container mx-auto p-6 bg-gray-100 h-screen overflow-y-scroll">
-      <p className="text-blue-600 text-3xl font-bold pb-4">Organisation name</p>
+      {/* <p className="text-blue-600 text-3xl font-bold pb-4">Organisation name</p> */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <GradientCard icon={FaMapPin} value={6} label="Current affected Areas" />
-        <GradientCard icon={FaHandsHelping} value={9} label="Active Relief Operations" />
-        <GradientCard icon={FaCheckCircle} value={47} label="Recovered Areas" />
-        <GradientCard icon={FaRupeeSign} value={39000} label="Available Funds" />
+        <GradientCard icon={FaMapPin} value={data?.currentAffectedAreas} label="Current affected Areas" />
+        <GradientCard icon={FaHandsHelping} value={data?.activeReliefOperations} label="Active Relief Operations" />
+        <GradientCard icon={FaCheckCircle} value={data?.recoveredAreas} label="Recovered Areas" />
+        <GradientCard icon={FaRupeeSign} value={data?.availableFunds} label="Available Funds" />
       </div>
 
 
@@ -118,16 +140,16 @@ const AdminDashboard = () => {
         <div className="bg-white p-4 rounded-lg shadow-md">
           <h2 className="text-lg font-semibold mb-4">Volunteer Availability</h2>
           <div className="flex justify-center">
-            <RadialChart value={85} label="Volunteer Availability" />
+            <RadialChart value={data?.volunteerAvailability} label="Volunteer Availability" />
           </div>
         </div>
         <div className="bg-white p-4 rounded-lg shadow-md">
           <h2 className="text-lg font-semibold mb-4">Items Distribution</h2>
           <MultipleRadicalChart data={[
-            { label: "Food", value: 70 },
-            { label: "Water", value: 50 },
-            { label: "Medical Supplies", value: 30 },
-            { label: "Shelter", value: 20 },
+            { label: "Food", value: data?.itemsDistribution?.food },
+            { label: "Water", value: data?.itemsDistribution?.water },
+            { label: "Medical Supplies", value: data?.itemsDistribution?.medicalSupplies },
+            { label: "Shelter", value: data?.itemsDistribution?.shelter},
           ]} />
 
         </div>
@@ -143,6 +165,12 @@ const AdminDashboard = () => {
           <WorkingHoursChart />
         </div> */}
       </div>
+      <button
+        className="mt-6 px-6 py-3 bg-blue-600 text-white font-bold rounded-lg cursor-pointer hover:bg-blue-700 transition"
+        onClick={() => navigate("/update-dashboard")}
+      >
+        Update Dashboard
+      </button>
     </div>
   );
 };

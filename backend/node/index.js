@@ -7,10 +7,11 @@ const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const User = require('./models/usersModel');
 const Post = require('./models/post');
-const Ngo = require('./models/ngoDashboardModel');
 const Forum = require('./models/forum');
 const axios = require('axios');
 const path = require('path');
+const Dashboard=require('./models/ngoDashboardModel')
+const ngoDashboardRouter = require("./routers/ngoDashboardRouter");
 
 require('dotenv').config();
 
@@ -98,10 +99,7 @@ app.use('/api/posts', postRouter);
 app.use('/api/ngo', ngoRouter);
 app.use('/api/forum', forumRouter);
 
-// // Test route
-// app.get('/', (req, res) => {
-//     res.json({ message: "Hello from the server" });
-// });
+app.use("/api/dashboard", ngoDashboardRouter);
 
 app.get('/search-users', async (req, res) => {
     try {

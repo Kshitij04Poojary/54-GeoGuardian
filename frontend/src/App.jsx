@@ -20,6 +20,7 @@ import NoticesPage from './pages/NoticesPage';
 import RefugeeArea from './pages/RefugeeArea';
 import RefugeeAreaDetails from './pages/RefugeeAreaDetails';
 import { UserContextProvider } from './context/UserContext';
+import UpdateDashboard from './pages/UpdateDashboard';
 function App() {
 
   return (
@@ -39,6 +40,7 @@ function App() {
         </Route>
         <Route path='/refugeearea' element={<RefugeeArea />} />
         <Route path='/refugeearea/:id' element={<RefugeeAreaDetails />} />
+        <Route path='/update-dashboard' element={<UpdateDashboard/>}/>
       </Routes >
     </UserContextProvider>
   )
