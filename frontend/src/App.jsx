@@ -17,12 +17,14 @@ import SidebarLayout from './layout/SidebarLayout';
 import ChatLayout from './layout/ChatLayout';
 import NoticeForm from './components/forms/NoticeForm';
 import NoticesPage from './pages/NoticesPage';
+import LocationComponent from './components/LocationComponent';
 
 function App() {
 
   return (
     <>
       {/* <EarthCanvas/> */}
+      <LocationComponent/>
       <Routes>
         <Route index path='/' element={<Landing />} />
         <Route index path='/login' element={<Login />} />
