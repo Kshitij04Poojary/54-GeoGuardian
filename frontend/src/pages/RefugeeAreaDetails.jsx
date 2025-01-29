@@ -7,6 +7,7 @@ const RefugeeAreaDetails = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [areaDetails, setAreaDetails] = useState([]);
 
+  console.log("Howdy");
   useEffect(() => {
     // Simulate fetching data for the area
     const fetchAreaDetails = () => {
