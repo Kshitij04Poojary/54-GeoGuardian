@@ -2,6 +2,9 @@ from flask import request,jsonify, Blueprint
 import joblib
 import requests
 # import xgboost as xgb
+import base64
+from io import BytesIO
+from sentinel import create_image
 import pandas
 import numpy as np
 import torch
@@ -11,6 +14,9 @@ import rasterio as rio
 import torch.nn as nn
 from PIL import Image
 from torchvision import transforms
+from fastai.vision.all import load_learner
+
+
 from fastai.data.all import *
 from fastai.vision.all import *
 # import PILImage
@@ -25,38 +31,94 @@ def ml_1():
 
 
 
-@main_bp.route('/cyclone/csv', methods=['GET'])
+@main_bp.route('/cyclone/csv', methods=['POST'])
 def cyclone_csv():
-    model = joblib.load("package/main/ml-models/model_lr_cyclone.pkl")
-    scaler = joblib.load("package/main/ml-models/scaler_cyclone.pkl")
-    api_key = "AxCaPnOSDvhvnZCbmtjjbhGYjXhIvAis"
-    url = f"https://www.ncdc.noaa.gov/cdo-web/api/v2/locations"
+    data = request.get_json()
+    print(data)
 
-    headers = {'token': api_key}
-    response = requests.get(url, headers=headers)
-    data = response.json()
+    latitude = float(data['latitude'])
+    longitude = float(data['longitude'])
+    print(latitude, longitude)
+    model = joblib.load("package/main/ml-models/model_lr_cyclone (1).pkl")
+    scaler = joblib.load("package/main/ml-models/scaler_cyclone (1).pkl")
+    api_key = "bbfeb7e0020640909f854402252901"
+    url = f"http://api.weatherapi.com/v1/current.json"
+    params = {
+    "key": api_key,  # API key
+    "q": f"{latitude},{longitude}",  # Latitude and Longitude format
+    "aqi": "no"      # Optional: Set to 'yes' to include air quality data
+    }
+
+    response = requests.get(url, params=params)
+    print("Response code",response.status_code)
+    if response.status_code == 200:
+        data = response.json()
+
+        # Extract relevant data from the response
+        temperature = data['current']['temp_c']  # Temperature in Celsius
+        humidity = data['current']['humidity']  # Humidity percentage
+        pressure = data['current']['pressure_mb']  # Atmospheric pressure in millibars
+        wind_speed = data['current']['wind_kph'] * 2
+        print(temperature, humidity, pressure, wind_speed)
+    # headers = {'token': api_key}
+    # response = requests.get(url, headers=headers)
+    # data = response.json()
 
     # Example of extracting location or data
-    locations = data['results']
-    print(locations)
-    data = [28.404460,1001.242177,60.823380,19.548648,0.000084,9.246782,131.821235,0.683405	]
+    # locations = data['results']
+    # print(locations)
+        data = [temperature,pressure,humidity,wind_speed,latitude, 3741]
     num_cols = ['Sea_Surface_Temperature', 'Atmospheric_Pressure', 'Humidity',
-       'Wind_Shear', 'Vorticity', 'Latitude', 'Ocean_Depth',
-       'Proximity_to_Coastline']
+       'Wind_Shear', 'Latitude', 'Ocean_Depth',
+       ]
     target = "Cyclone"
     scaled_data = scaler.transform([data])
     targets = model.predict(scaled_data)
-    return jsonify({"data":targets.tolist()[0]})
+    print(targets.tolist()[0])
+    # rounded_targets = [round(value, 2) for value in targets.tolist()[0]]
+    # print(rounded_targets)
+    return jsonify({"data": targets.tolist()[0]})
 
 
-@main_bp.route('/landslide/csv', methods=['GET'])
+@main_bp.route('/landslide/csv', methods=['POST'])
 def landslide_csv():
     model = joblib.load("package/main/ml-models/landslide_risk_prediction.pkl")
     cols = ["Temperature", "Humidity", "Precipitation", "Elevation (m)"]
     target = "Landslide Risk Prediction"
-    data = [[23,91,118,994]]
+    data = request.get_json()
+    print(data)
+
+    latitude = float(data['latitude'])
+    longitude = float(data['longitude'])
+    print(latitude, longitude)
+    api_key = "bbfeb7e0020640909f854402252901"
+    url = f"http://api.weatherapi.com/v1/current.json"
+    params = {
+    "key": api_key,  # API key
+    "q": f"{latitude},{longitude}",  # Latitude and Longitude format
+    "aqi": "no"      # Optional: Set to 'yes' to include air quality data
+    }
+
+    response = requests.get(url, params=params)
+    print("Response code",response.status_code)
+    if response.status_code == 200:
+        data = response.json()
+
+        # Extract relevant data from the response
+        temperature = data['current']['temp_c']  # Temperature in Celsius
+        humidity = data['current']['humidity']  # Humidity percentage
+        precip_mm = data['current']['precip_mm']  # Atmospheric pressure in millibars
+        # wind_speed = data['current']['wind_kph'] * 2
+        print(temperature, humidity, precip_mm)
+
+
+    dic = {
+        0:"High", 1: "Low", 2:"Moderate", 3:"Very High"
+    }
+    data = [[temperature,humidity,precip_mm,994]]
     y_pred = model.predict(data)
-    return jsonify({"msg": y_pred.tolist()})
+    print(dic[y_pred[0]])
+    return jsonify({"data": dic[y_pred[0]]})
 
 
 class CycloneIntensityModel(nn.Module):
@@ -71,8 +133,15 @@ class CycloneIntensityModel(nn.Module):
 
 
 
-@main_bp.route('/cyclone/images', methods=['GET'])
+
+
+@main_bp.route('/cyclone/images', methods=['POST'])
 def cyclone_images():
+    data = request.get_json()
+    # print(data)
+    latitude = float(data.get('latitude'))
+    longitude = float(data.get('longitude'))
+    
     model_v1_path = "package/main/ml-models/cyclone_resnet18_simple.pth"
 
     # Initialize the model architecture
@@ -86,7 +155,7 @@ def cyclone_images():
         transforms.Resize((224, 224)),
         transforms.ToTensor(),
     ])
-
+    create_image(lat=latitude, lon=longitude)
     img_path = "sentinel_data/sentinel_image.png"
     image = Image.open(img_path).convert('RGB')
     image_tensor = transform(image).unsqueeze(0)
@@ -99,7 +168,54 @@ def cyclone_images():
     # Make the prediction
     with torch.no_grad():
         output = model(image_tensor)
-    return jsonify({"data": output.item()})
+
+    buffered = BytesIO()
+    image.save(buffered, format="PNG")
+    img_base64 = base64.b64encode(buffered.getvalue()).decode('utf-8')
+    print(output.item())
+    return jsonify({"data": round(output.item(), 2), "image": img_base64})
+
+
+
+
+from pathlib import WindowsPath, PosixPath
+if hasattr(PosixPath, "_flavour") and hasattr(WindowsPath, "_flavour"):
+    PosixPath._flavour = WindowsPath._flavour
+
+learner = load_learner('package/main/ml-models/trained_model.pkl')
+
+
+from PIL import Image as PILImage
+from fastai.vision.all import PILImage
+
+@main_bp.route('/flood/images', methods=['GET'])
+def flood_images():
+    # Get the image path from query parameters
+    image_path = "sentinel_data/sentinel_image.png"
+    
+    if not image_path:
+        return jsonify({'error': 'Please provide an image path as a query parameter'}), 400
+
+    try:
+        # Perform prediction
+        label, _, probabilities = learner.predict(PILImage.create(image_path))
+
+        # Prepare response based on prediction
+        if label == '0':
+            result = f"The area shown in the image is not flooded with probability {probabilities[0]*100:.2f}%."
+            x = "Not Flooded"
+        elif label == '1':
+            result = f"The area shown in the image is flooded with probability {probabilities[1]*100:.2f}%."
+            x = "Flooded"
+        else:
+            result = "Unknown label assigned to image."
+        
+        prob = probabilities[1]*100
+        return jsonify({'msg': result, "prediction": x, "probability": prob.item()})
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 
 
 
