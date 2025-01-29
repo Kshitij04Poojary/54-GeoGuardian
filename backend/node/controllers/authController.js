@@ -1,11 +1,14 @@
 const { signupSchema, signinSchema, acceptCodeSchema } = require("../middlewares/validator");
 const User = require('../models/usersModel');
 const { doHash, doHashValidation, hmacProcess } = require("../utils/hashing");
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
 const transport = require('../middlewares/sendMail');
+const upload = require('../middlewares/upload'); // Import Multer middleware
 
+// Signup Controller
 exports.signup = async (req, res) => {
-    const { email, password, phone } = req.body;
+    const { email, password, phone, username} = req.body;
+    
     try {
         const { error, value } = signupSchema.validate({ email, password });
 
@@ -27,6 +30,7 @@ exports.signup = async (req, res) => {
             email,
             password: hashedPassword,
             phone, // Add phone to the newUser object
+            username,
         });
 
         const result = await newUser.save();
@@ -42,6 +46,7 @@ exports.signup = async (req, res) => {
     }
 };
 
+// Signin Controller
 exports.signin = async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -51,11 +56,11 @@ exports.signin = async (req, res) => {
         }
         const existingUser = await User.findOne({ email }).select('+password')
         if (!existingUser) {
-            return res.status(401).json({ success: false, message: "User does not exists!" })
+            return res.status(401).json({ success: false, message: "User does not exist!" })
         }
         const result = await doHashValidation(password, existingUser.password)
         if (!result) {
-            return res.status(401).json({ success: false, message: "Invalid credetials!" })
+            return res.status(401).json({ success: false, message: "Invalid credentials!" })
         }
         const token = jwt.sign({
             userId: existingUser._id,
@@ -74,23 +79,25 @@ exports.signin = async (req, res) => {
             .json({
                 success: true,
                 token,
-                message: "logged in successfully"
+                message: "Logged in successfully"
             })
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
 }
 
+// Signout Controller
 exports.signout = async (req, res) => {
-    res.clearCookie('Authorization').status(200).json({ success: true, message: 'logged out successfully' })
+    res.clearCookie('Authorization').status(200).json({ success: true, message: 'Logged out successfully' })
 }
 
+// Send Verification Code Controller
 exports.sendVerificationCode = async (req, res) => {
     const { email } = req.body;
     try {
         const existingUser = await User.findOne({ email })
         if (!existingUser) {
-            return res.status(404).json({ success: false, message: "User does not exists!" })
+            return res.status(404).json({ success: false, message: "User does not exist!" })
         }
         if (existingUser.verified) {
             return res.status(400).json({ success: false, message: "You are already verified" })
@@ -99,10 +106,9 @@ exports.sendVerificationCode = async (req, res) => {
         let info = await transport.sendMail({
             from: process.env.NODE_CODE_SENDING_EMAIL_ADDRESS,
             to: existingUser.email,
-            subject: "verification code",
+            subject: "Verification code",
             html: '<h1>' + codeValue + '</h1>'
         })
-        // console.log(info)
         if (info.accepted[0] == existingUser.email) {
             const hashedCodeValue = hmacProcess(codeValue, process.env.HMAC_VERIFICATION_CODE_SECRET)
             existingUser.verificationCode = hashedCodeValue;
@@ -110,12 +116,13 @@ exports.sendVerificationCode = async (req, res) => {
             await existingUser.save()
             return res.status(200).json({ success: true, message: "Code sent!" })
         }
-        res.status(400).json({ success: false, message: 'Code sent failed!' })
+        res.status(400).json({ success: false, message: 'Code sending failed!' })
     } catch (error) {
         console.log(error);
     }
 }
 
+// Verify Verification Code Controller
 exports.verifyVerificationCode = async (req, res) => {
     const { email, providedCode } = req.body;
     try {
@@ -126,23 +133,18 @@ exports.verifyVerificationCode = async (req, res) => {
         const codeValue = providedCode.toString();
         const existingUser = await User.findOne({ email }).select("+verificationCode +verificationCodeValidation")
         if (!existingUser) {
-            return res.status(404).json({ success: false, message: "User does not exists!" })
+            return res.status(404).json({ success: false, message: "User does not exist!" })
         }
         if (existingUser.verified) {
-            return res.status(400).json({ success: false, message: "you are already verified!" })
+            return res.status(400).json({ success: false, message: "You are already verified!" })
         }
-        // console.log(existingUser.verificationCode,existingUser.verificationCodeValidation)
-        if (!existingUser.verificationCode && !existingUser.verificationCodeValidation) {
-            return res
-                .status(400)
-                .json({ success: false, message: 'something is wrong with the code!' });
+        if (!existingUser.verificationCode || !existingUser.verificationCodeValidation) {
+            return res.status(400).json({ success: false, message: 'Something went wrong with the code!' });
         }
         if (Date.now() - existingUser.verificationCodeValidation > 5 * 60 * 1000) {
-            return res.status(400).json({ success: false, message: "Code has been expired" });
+            return res.status(400).json({ success: false, message: "Code has expired" });
         }
         const hashedCodeValue = hmacProcess(codeValue, process.env.HMAC_VERIFICATION_CODE_SECRET)
-        // console.log(hashedCodeValue)
-        // console.log(existingUser.verificationCode)
         if (hashedCodeValue === existingUser.verificationCode) {
             existingUser.verified = true;
             existingUser.verificationCode = undefined;
@@ -150,9 +152,42 @@ exports.verifyVerificationCode = async (req, res) => {
             await existingUser.save();
             return res.status(200).json({ success: true, message: "Your account has been verified" })
         }
-        return res.status(400).json({ success: false, message: "An unexpected error occured" })
+        return res.status(400).json({ success: false, message: "An unexpected error occurred" })
 
     } catch (error) {
         console.log(error);
     }
 }
+
+// File Upload Route for Documents
+exports.uploadDocuments = async (req, res) => {
+    const { userId } = req.params;
+
+    // Get the uploaded files from the request
+    const document1 = req.files.document1 ? req.files.document1[0].filename : null;
+    const document2 = req.files.document2 ? req.files.document2[0].filename : null;
+
+    try {
+        // Find the user by ID
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Update the user with the document file names
+        user.documents.document1 = document1;
+        user.documents.document2 = document2;
+
+        // Save the updated user
+        await user.save();
+
+        res.status(200).json({
+            success: true,
+            message: 'Documents uploaded successfully',
+            user,
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: error.message });
+    }
+};
