@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 
 // components
-import ChatWindow from './components/chats/ChatWindow';
+import ChatWindow from './components/chats/Forum';
 import Map from './components/Map';
 
 // pages
@@ -32,19 +32,20 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/forgot-password' element={<ForgotPassword />} />
-        <Route path='/notices' element={<NoticesPage />} />
-        <Route path='/notices/add' element={<NoticeForm />} />
+     
         <Route path='/dashboard' element={<SidebarLayout />}>
             <Route path='map' element={<Map />} />
+            <Route path='notices' element={<NoticesPage />} />
             <Route path='aid' element={<FirstAidPage />} />
             <Route path='analytics' element={<AdminDashboard />} />
             <Route path='forum' element={<ChatWindow />} />
             <Route path='refugeearea' element={<RefugeeArea />} />
             <Route path='refugeearea/:id' element={<RefugeeAreaDetails />} />
+            <Route path='geoanalysis' element={<CoordinateDisplay/>}/>
         </Route>
 
         <Route path='/update-dashboard' element={<UpdateDashboard />} />
-        <Route path='/geoanalysis' element={<CoordinateDisplay/>}/>
+        
       </Routes >
     </UserContextProvider>
   )

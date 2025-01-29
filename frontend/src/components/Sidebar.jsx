@@ -4,6 +4,7 @@ import {
   Map,
   Users,
   LineChart,
+  ChartArea,
   Cross,
   Globe,
   Tent,
@@ -15,7 +16,7 @@ import { UserContext } from "../context/UserContext";
 const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   // Access user info from UserContext
   const { user } = useContext(UserContext);  // Accessing user context
 
@@ -37,7 +38,7 @@ const Sidebar = () => {
     },
     {
       name: "Notices",
-      path: "/notices",
+      path: "/dashboard/notices",
       allowedFor: ["Admin", "NGO", "Organization", "Citizen"],
       icon: ScrollText
     },
@@ -52,6 +53,12 @@ const Sidebar = () => {
       path: "/dashboard/aid",
       allowedFor: ["Admin", "Citizen"],
       icon: Cross
+    },
+    {
+      name: "GeoAnalysis",
+      path: "/dashboard/geoanalysis",
+      allowedFor: ["Admin", "Organization"],
+      icon: ChartArea
     },
     {
       name: "Refugee Details",
@@ -120,7 +127,8 @@ const Sidebar = () => {
         <div className="bg-violet-100 rounded-lg p-4 flex flex-col items-center text-center">
           <h3 className="text-sm font-medium mb-1">Need Help ?</h3>
           <p className="text-xs text-gray-600 mb-3">Contact us for support</p>
-          <button className="text-sm bg-white text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
+          <button className="text-sm bg-white text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+            onClick={() => navigate("/contact")}>
             Support Center
           </button>
         </div>

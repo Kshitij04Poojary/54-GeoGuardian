@@ -3,7 +3,7 @@ import axios from "axios";
 import { UserContext } from "../../context/UserContext";
 import { MessageCircle, Send, Filter } from "lucide-react";
 
-const ChatWindow = () => {
+const Forum = () => {
     // ... all existing state and functions remain the same ...
     const [posts, setPosts] = useState([]);
     const [message, setMessage] = useState("");
@@ -178,4 +178,4 @@ const ChatWindow = () => {
     );
 };
 
-export default ChatWindow;
+export default Forum;
