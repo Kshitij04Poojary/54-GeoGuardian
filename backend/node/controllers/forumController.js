@@ -17,20 +17,27 @@ const createPost = async (req, res) => {
     }
 };
 
-// ✅ Get paginated forum posts (Infinite Scrolling)
+// ✅ Get paginated forum posts (Infinite Scrolling) with userType filter
 const getAllPosts = async (req, res) => {
     try {
-        let { page, limit } = req.query;
+        let { page, limit, userType } = req.query;
         page = parseInt(page) || 1; // Default page 1
         limit = parseInt(limit) || 20; // Default 20 posts per request
         const skip = (page - 1) * limit;
 
-        const posts = await Forum.find()
+        // Construct query object for filtering by userType
+        let query = {};
+
+        if (userType) {
+            query.userType = userType; // Filter by userType if provided
+        }
+
+        const posts = await Forum.find(query) // Use query object for filtering
             .sort({ createdAt: -1 }) // Newest posts first
             .skip(skip)
             .limit(limit);
 
-        const totalPosts = await Forum.countDocuments();
+        const totalPosts = await Forum.countDocuments(query); // Count with filter applied
 
         res.status(200).json({
             success: true,

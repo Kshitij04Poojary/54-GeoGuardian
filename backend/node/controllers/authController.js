@@ -80,6 +80,12 @@ exports.signin = async (req, res) => {
             .json({
                 success: true,
                 token,
+                user:{
+                    email: existingUser.email,
+                    username: existingUser.username,
+                    phone: existingUser.phone,
+                    userType: existingUser.userType
+                },
                 message: "Logged in successfully"
             })
     } catch (error) {

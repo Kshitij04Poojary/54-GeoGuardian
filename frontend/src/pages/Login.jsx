@@ -17,6 +17,7 @@ function Login() {
         { email, password }
       );
       setUser(res.data);
+      console.log(res.data);
       navigate("/dashboard/analytics");
     } catch (err) {
       setError(true);
