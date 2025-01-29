@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const User = require('./models/usersModel');
 const Post = require('./models/post');
 const Ngo = require('./models/ngoDashboardModel');
+const Forum = require('./models/forum');
 const axios = require('axios');
 const path = require('path');
 
@@ -86,6 +87,7 @@ const broadcastRouter = require('./routers/broadcastRouter');
 const chatbotRouter = require('./routers/chatbotRouter');
 const postRouter = require('./routers/postRouter');
 const ngoRouter = require('./routers/ngoDashboardRouter');
+const forumRouter = require('./routers/forumRouter');
 
 // Routes
 app.use('/uploads', express.static(path.join(__dirname, './uploads')));
@@ -94,6 +96,7 @@ app.use('/api/broadcast', broadcastRouter);
 app.use("/api/chatbot", chatbotRouter);
 app.use('/api/posts', postRouter);
 app.use('/api/ngo', ngoRouter);
+app.use('/api/forum', forumRouter);
 
 // // Test route
 // app.get('/', (req, res) => {

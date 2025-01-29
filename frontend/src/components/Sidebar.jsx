@@ -18,13 +18,13 @@ const Sidebar = ({ userRole = "admin" }) => {
       icon: LineChart
     },
     {
-      name: "nearby help",
+      name: "Nearby help",
       path: "/dashboard/map",
       allowedFor: ["admin", "user"],
       icon: Map
     },
     {
-      name: "Collaboration",
+      name: "Forum",
       path: "/dashboard/collab",
       allowedFor: ["admin", "ngo"],
       icon: Users
