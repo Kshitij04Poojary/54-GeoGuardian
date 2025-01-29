@@ -19,11 +19,11 @@ import NoticeForm from './components/forms/NoticeForm';
 import NoticesPage from './pages/NoticesPage';
 import RefugeeArea from './pages/RefugeeArea';
 import RefugeeAreaDetails from './pages/RefugeeAreaDetails';
+import { UserContextProvider } from './context/UserContext';
 function App() {
 
   return (
-    <>
-      {/* <EarthCanvas/> */}
+    <UserContextProvider>
       <Routes>
         <Route index path='/' element={<Landing />} />
         <Route path='/login' element={<Login />} />
@@ -42,7 +42,7 @@ function App() {
         <Route path='/refugeearea' element={<RefugeeArea />} />
         <Route path='/refugeearea/:id' element={<RefugeeAreaDetails />} />
       </Routes >
-    </>
+    </UserContextProvider>
   )
 }
 

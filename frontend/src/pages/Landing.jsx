@@ -1,5 +1,5 @@
 import EarthCanvas from '../components/Earth';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Landing = () => {
 

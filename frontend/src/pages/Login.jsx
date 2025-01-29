@@ -2,7 +2,6 @@ import { useNavigate, Link } from "react-router-dom";
 import { useContext, useState } from "react";
 import axios from "axios";
 import { UserContext } from "../context/UserContext";
-import { URL } from "../url"
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -14,9 +13,8 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault(); // Prevent page reload on form submit
     try {
-      const res = await axios.post(URL+"/api/auth/signin",
-        { email, password },
-        { withCredentials: true }
+      const res = await axios.post("http://localhost:8000/api/auth/signin",
+        { email, password }
       );
       setUser(res.data);
       navigate("/dashboard/analytics");
@@ -61,7 +59,7 @@ function Login() {
                   type="password"
                   id="password"
                   className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="••••••••••"
+                  placeholder=""
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
