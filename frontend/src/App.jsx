@@ -15,12 +15,14 @@ import FirstAidPage from './pages/FirstAidPage';
 // Layout
 import SidebarLayout from './layout/SidebarLayout';
 import ChatLayout from './layout/ChatLayout';
+import Landing from './pages/Landing';
 
 function App() {
 
   return (
     <>
     <Routes>
+      <Route index path='/' element={<Landing />} />
       <Route index path='/login' element={<Login />} />
       <Route path='/register' element={<Register />} />
       <Route path='/forgot-password' element={<ForgotPassword />} />
