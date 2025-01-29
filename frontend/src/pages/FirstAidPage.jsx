@@ -19,14 +19,14 @@ const FirstAidPage = () => {
   };
 
   return (
-    <div className="flex gap-4 h-screen p-6 bg-gray-50">
+    <div className="flex gap-4 h-screen p-6 bg-gray-50 cursor-pointer">
       {/* Left Side: Selected Card with Video */}
       <div className="w-3/5 flex flex-col h-full">
         {/* Fixed height video container */}
-        <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-black">
+        <div className="relative w-full aspect-video rounded-lg overflow-hidden cursor-pointer">
           <iframe
             className="absolute inset-0 w-full h-full"
-            src={`https://www.youtube.com/embed/${selectedCard.video}`}
+            src={selectedCard.video}
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
@@ -34,14 +34,14 @@ const FirstAidPage = () => {
         </div>
 
         {/* Content section with scrollable instructions */}
-        <div className="flex flex-col flex-grow mt-4 max-h-[calc(100vh-56vh)] overflow-y-auto">
+        <div className="flex flex-col flex-grow mt-4 max-h-[calc(100vh-56vh)] overflow-y-auto cursor-pointer">
           <h1 className="text-2xl font-bold">{selectedCard.title}</h1>
           <p className="text-gray-700 mt-2 mb-4">
             Learn how to stay safe during a {selectedCard.title}. Follow the steps below:
           </p>
 
           {/* Scrollable instructions grid */}
-          <div className="grid grid-cols-2 gap-4 overflow-y-auto">
+          <div className="grid grid-cols-2 gap-4 overflow-y-auto cursor-pointer">
             {selectedCard.instructions.map((instruction, index) => (
               <div 
                 key={index} 
