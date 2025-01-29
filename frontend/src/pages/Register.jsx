@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Upload } from 'lucide-react';
+import axios from 'axios';
 
 function Register() {
     const [step, setStep] = useState(1);
@@ -42,12 +43,48 @@ function Register() {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Form submitted:", { formData, idProof, addressProof });
-        // Submit form logic here
+    
+        // ✅ Use consistent variable names
+        const formDataToSend = new FormData();
+    
+        // ✅ Correct way to append form data
+        formDataToSend.append("username", formData.username);
+        formDataToSend.append("email", formData.email);
+        formDataToSend.append("password", formData.password);
+        formDataToSend.append("phone", formData.phone);
+        formDataToSend.append("userType", formData.userType);
+    
+        if (idProof) formDataToSend.append("idProof", idProof);
+        if (addressProof) formDataToSend.append("addressProof", addressProof);
+    
+        // ✅ Debugging: Ensure FormData has expected values
+        for (let pair of formDataToSend.entries()) {
+            console.log(pair[0] + ": " + pair[1]);
+        }
+    
+        try {
+            const response = await axios.post(
+                "http://localhost:8000/api/auth/signup",
+                formDataToSend,
+                {
+                    headers: { "Content-Type": "multipart/form-data" },
+                }
+            );
+    
+            if (response.data.success) {
+                alert("Signup successful!");
+                window.location.href = "/login";
+            } else {
+                alert(response.data.message);
+            }
+        } catch (error) {
+            console.error("Signup Error:", error);
+            alert("Error signing up. Please try again.");
+        }
     };
-
+    
     const isMultiStep = formData.userType === "NGO" || formData.userType === "Organization";
 
     return (
