@@ -7,6 +7,8 @@ const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const chatbotRouter = require("./routers/chatbotRouter");
 const User = require('./models/usersModel');
+const Post = require('./models/post');
+const Ngo = require('./models/ngoDashboardModel');
 const axios = require('axios');
 
 require('dotenv').config();
@@ -81,11 +83,16 @@ mongoose.connect(process.env.MONGO_URL)
 // Importing routers
 const authRouter = require('./routers/authRouter');
 const broadcastRouter = require('./routers/broadcastRouter');
+const chatbotRouter = require('./routers/chatbotRouter');
+const postRouter = require('./routers/postRouter');
+const ngoRouter = require('./routers/ngoDashboardRouter');
 
 // Routes
 app.use('/api/auth', authRouter);
-app.use('/api/broadcast', broadcastRouter); // Added broadcast route
+app.use('/api/broadcast', broadcastRouter);
 app.use("/api/chatbot", chatbotRouter);
+app.use('/api/posts', postRouter);
+app.use('/api/ngo', ngoRouter);
 
 // // Test route
 // app.get('/', (req, res) => {
