@@ -1,5 +1,5 @@
 import React from "react";
-import FirstAidCard from "../components/charts/FirstAidCard";
+import FirstAidCard from "../components/FirstAidCard";
 import firstAidData from "../assets/firstAidData";
 
 const FirstAidPage = () => {
