@@ -29,21 +29,31 @@ const userSchema = mongoose.Schema({
     },
     userType: {
         type: String,
-        // required: [true, "User type must be selected"],
-        enum: ['Admin', 'Organization', 'NGO', 'Citizen'], // Allowed user types
+        enum: ['Admin', 'Organization', 'NGO', 'Citizen'],
         default: 'Citizen',
     },
     phone: {
         type: String,
         required: [true, "Phone number is required"],
         unique: [true, "Phone number must be unique"],
-        // validate: {
-        //     validator: function (v) {
-        //         return /^\d{10}$/.test(v);
-        //     },
-        //     message: props => `${props.value} is not a valid phone number!`
-        // },
     },
+    username: {
+        type: String,
+        required: [true, "Username is required"],
+        trim: true,
+        minLength: [3, "Username must be at least 3 characters long"],
+        maxLength: [20, "Username cannot exceed 20 characters"],
+    },
+    documents: {
+        document1: {
+            type: String,
+            default: null // Will store the file name of the uploaded document
+        },
+        document2: {
+            type: String,
+            default: null // Will store the file name of the uploaded document
+        }
+    }
 }, {
     timestamps: true
 });

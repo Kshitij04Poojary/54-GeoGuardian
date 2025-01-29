@@ -5,11 +5,11 @@ const { Server } = require('socket.io'); // Import the server-side version
 const http = require('http'); // Required for integrating Socket.IO with Express
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
-const chatbotRouter = require("./routers/chatbotRouter");
 const User = require('./models/usersModel');
 const Post = require('./models/post');
 const Ngo = require('./models/ngoDashboardModel');
 const axios = require('axios');
+const path = require('path');
 
 require('dotenv').config();
 
@@ -88,6 +88,7 @@ const postRouter = require('./routers/postRouter');
 const ngoRouter = require('./routers/ngoDashboardRouter');
 
 // Routes
+app.use('/uploads', express.static(path.join(__dirname, './uploads')));
 app.use('/api/auth', authRouter);
 app.use('/api/broadcast', broadcastRouter);
 app.use("/api/chatbot", chatbotRouter);

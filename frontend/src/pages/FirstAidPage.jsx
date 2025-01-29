@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import firstAidData from "../assets/firstAidData";
 import FirstAidCard from "../components/charts/FirstAidCard";
-import Sidebar from "../components/Sidebar";
+import firstAidData from "../assets/firstAidData";
 
 const FirstAidPage = () => {
   const [selectedCard, setSelectedCard] = useState(firstAidData[0]);
@@ -23,6 +23,7 @@ const FirstAidPage = () => {
   }, []);
 
   const handleCardClick = (index) => {
+    // Swap the clicked card with the currently selected card
     const newSelectedCard = otherCards[index];
     const updatedOtherCards = [
       selectedCard,
