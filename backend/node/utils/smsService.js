@@ -10,12 +10,12 @@ const client = twilio(accountSid, authToken);
 
 exports.sendBulkSMS = async (phoneNumbers, message) => {
     try {
-        // Validate Twilio Phone Number
-        if (!twilioPhone || !twilioPhone.startsWith('+')) {
+        // Validate Twilio phone number
+        if (!twilioPhone) {
             throw new Error('Invalid Twilio phone number in environment variables.');
         }
 
-        // Remove invalid phone numbers and prepare for sending
+        // Validate phone numbers
         const validNumbers = phoneNumbers
             .filter(number => /^\d{10}$/.test(number)) // Ensure exactly 10-digit numbers
             .map(number => `+91${number}`);

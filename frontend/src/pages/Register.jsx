@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 function Register() {
+    const [username, setUsername] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -42,6 +43,21 @@ function Register() {
                                 <option value="NGO">NGO</option>
                                 <option value="Citizen">Citizen</option>
                             </select>
+                        </div>
+
+                        {/* Username Input */}
+                        <div>
+                            <label htmlFor="username" className="block mb-1 text-sm font-medium text-gray-700">Username</label>
+                            <input
+                                type="text"
+                                className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                id="username"
+                                name="username"
+                                value={username}
+                                onChange={e => setUsername(e.target.value)}
+                                placeholder="Enter your username"
+                                required
+                            />
                         </div>
 
                         {/* Email Input */}

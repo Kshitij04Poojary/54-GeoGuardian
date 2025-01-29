@@ -1,4 +1,3 @@
-import React from "react";
 import Chart from "react-apexcharts";
 import { BsClockHistory } from "react-icons/bs";
 import { FaAppleAlt, FaUsers, FaTshirt, FaFirstAid, FaRupeeSign, FaCheckCircle, FaHandsHelping, FaMapPin } from 'react-icons/fa';
