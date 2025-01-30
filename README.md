@@ -4,6 +4,18 @@
 
 This project is a web-based application that provides insights and predictions related to natural disasters like cyclones, landslides, and floods. It uses various machine learning models for risk predictions and image classification.
 
+## Video Tutorial
+
+Watch this video tutorial for more information on how to set up and use the project:
+
+[![Watch the video](https://img.youtube.com/vi/qaT6v7VqzDE/0.jpg)](https://youtu.be/qaT6v7VqzDE)
+
+Click the image above to watch the tutorial on YouTube.
+
+---
+
+
+
 ## Running the Frontend
 
 To run the frontend of this application locally, follow these steps:
