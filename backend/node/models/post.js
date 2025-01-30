@@ -11,7 +11,7 @@ const postSchema = mongoose.Schema({
         type: String,
         required: [true, "Description is required"],
         trim: true,
-        minLength: [10, "Description must be at least 10 characters long"],
+        minLength: [5, "Description must be at least 10 characters long"],
     },
     organizationName: {
         type: String,

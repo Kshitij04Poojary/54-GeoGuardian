@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AlertCircle, X } from 'lucide-react';
+import axios from 'axios';
 
-// Utility function to format timestamps
+// Utility function for timestamps
 const timeAgo = (timestamp) => {
     const now = Date.now();
     const difference = now - timestamp;
@@ -24,6 +25,9 @@ const timeAgo = (timestamp) => {
 
 const NoticesPage = () => {
     const [isFormOpen, setIsFormOpen] = useState(false);
+    const [notices, setNotices] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -31,24 +35,56 @@ const NoticesPage = () => {
         urgent: false
     });
 
-    const notices = [
-        { title: "Notice 1", description: "Description of Notice 1", organizationName: "Org 1", urgent: true, timestamp: Date.now() - 3600000 },
-        { title: "Notice 2", description: "Description of Notice 2", organizationName: "Org 2", urgent: false, timestamp: Date.now() - 86400000 },
-        { title: "Notice 3", description: "Description of Notice 3", organizationName: "Org 3", urgent: true, timestamp: Date.now() - 60000000 }
-    ];
+    // Fetch notices
+    useEffect(() => {
+        fetchNotices();
+    }, []);
 
-    const sortedNotices = notices.sort((a, b) => b.urgent - a.urgent || b.timestamp - a.timestamp);
+    const fetchNotices = async () => {
+        try {
+            setIsLoading(true);
+            const response = await axios.get('https://localhost"8000/api/posts/');
+            const sortedNotices = response.data.posts.sort((a, b) => b.urgent - a.urgent || b.timestamp - a.timestamp);
+            setNotices(sortedNotices);
+        } catch (err) {
+            setError('Failed to fetch notices');
+            console.error('Error fetching notices:', err);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
-        setIsFormOpen(false);
-        setFormData({
-            title: '',
-            description: '',
-            organizationName: '',
-            urgent: false
+
+        const noticeData = JSON.stringify({
+            title: formData.title.trim(),
+            description: formData.description.trim(),
+            organizationName: formData.organizationName.trim(),
+            urgent: formData.urgent
         });
+
+        try {
+            setIsLoading(true);
+            const response = await axios.post('https://localhost"8000/api/posts', noticeData);
+
+            // Add new notice to the list
+            setNotices(prev => [...prev, response.data].sort((a, b) => b.urgent - a.urgent || b.timestamp - a.timestamp));
+
+            // Reset form and close modal
+            setFormData({
+                title: '',
+                description: '',
+                organizationName: '',
+                urgent: false
+            });
+            setIsFormOpen(false);
+        } catch (err) {
+            setError('Failed to create notice');
+            console.error('Error creating notice:', err);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const handleChange = (e) => {
@@ -65,12 +101,24 @@ const NoticesPage = () => {
                 <h2 className="text-xl font-bold text-white">Notices</h2>
             </div>
             <button
-                className="absolute bottom-4 right-4 bg-blue-500 text-white text-2xl flex justify-center items-center w-12 h-12 rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-300 ease-in-out shadow-md hover:shadow-lg z-10"
+                className="absolute bottom-4 right-4 bg-blue-500 text-white text-2xl flex justify-center items-center w-12 h-12 rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-300 ease-in-out shadow-md hover:shadow-lg z-10 cursor-pointer"
                 onClick={() => setIsFormOpen(true)}
             >
                 +
             </button>
-            <div className="bg-[#F4F2FD] p-4 relative">
+            <div className="bg-[#F4F2FD] p-4 relative min-h-screen">
+                {error && (
+                    <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                        <span className="block sm:inline">{error}</span>
+                    </div>
+                )}
+
+                {isLoading && (
+                    <div className="flex justify-center items-center py-8">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                    </div>
+                )}
+
                 {isFormOpen && (
                     <>
                         <div className="fixed inset-0 filter blur-sm backdrop-blur-sm z-40" />
@@ -142,9 +190,11 @@ const NoticesPage = () => {
                                     </div>
 
                                     <button
-                                        className="w-full bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-300 ease-in-out"
+                                        type="submit"
+                                        disabled={isLoading}
+                                        className="w-full bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
-                                        Create Notice
+                                        {isLoading ? 'Creating...' : 'Create Notice'}
                                     </button>
                                 </form>
                             </div>
@@ -153,7 +203,7 @@ const NoticesPage = () => {
                 )}
 
                 <ul>
-                    {sortedNotices.map((notice, index) => (
+                    {notices.map((notice, index) => (
                         <li key={index} className="my-4 p-4 border-gray-200 rounded-xl py-6 bg-white border-1">
                             <div className="flex justify-between items-center">
                                 <div className="flex flex-row gap-3 items-center">
