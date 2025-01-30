@@ -47,14 +47,18 @@ Make sure you have Node.js installed. You can check by running:
    ```
       source venv/bin/activate
    ```
-
-2. Install required Python packages
+2. Navigate to the frontend directory
+   If your frontend is located in a separate directory (e.g., frontend), navigate to that directory by running:
+      ```
+      cd backend/flask
+      ```
+3. Install required Python packages
    Once the virtual environment is activated, install the necessary dependencies:
    ```
       pip install -r requirements.txt
    ```
 
-3.  Run the backend server
+4.  Run the backend server
    Start the backend server by running:
    ```
       python run.py
