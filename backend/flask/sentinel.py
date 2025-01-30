@@ -52,17 +52,33 @@ def create_image(lat, lon):
 
     # Download image data
     response = request.get_data()
-
     if response and len(response) > 0:
         image = np.array(response[0])
+
+        # Brighten the image by multiplying pixel values by a factor
+        brightness_factor = 5  # Factor to brighten the image
+        bright_image = np.clip(image * brightness_factor, 0, 255).astype(np.uint8)
 
         # Create directory if not exists
         output_dir = "sentinel_data"
         os.makedirs(output_dir, exist_ok=True)
 
-        # Save image
+        # Save the brightened image
         output_path = os.path.join(output_dir, "sentinel_image.png")
-        plt.imsave(output_path, image)
-        print(f"Image saved to {output_path}")
+        plt.imsave(output_path, bright_image)
+        print(f"Brightened image saved to {output_path}")
     else:
         print("No image data received.")
+    # if response and len(response) > 0:
+    #     image = np.array(response[0])
+
+    #     # Create directory if not exists
+    #     output_dir = "sentinel_data"
+    #     os.makedirs(output_dir, exist_ok=True)
+
+    #     # Save image
+    #     output_path = os.path.join(output_dir, "sentinel_image.png")
+    #     plt.imsave(output_path, image)
+    #     print(f"Image saved to {output_path}")
+    # else:
+    #     print("No image data received.")
