@@ -27,14 +27,14 @@ const Testimonials = ({ middleColumnOffset = 'mt-12' }) => {
     const testimonials = {
         column1: [
             {
-                author: "William Fry",
+                author: "Sahil Deshpande",
                 title: "CEO @Mainhares",
                 heading: "One of the most talented teams",
                 content: "After 7+ years in the SaaS industry, I can confidently say that Simon from Brandby is one of the most talented designers I've worked with so far. He goes above and beyond when it comes to understanding and executing design.",
                 verified: true
             },
             {
-                author: "Anneet Bains",
+                author: "Annit Bhatacharya",
                 title: "Marketing Lead @Stepsize",
                 heading: "Reliable, Fast, Easy",
                 content: "Brandby were incredibly fast and came up with numerous options for us to walk-through. They solicit feedback at every opportunity and worked really hard to create the perfect design for us. We couldn't be happier, and really enjoyed working with them!",
@@ -43,14 +43,14 @@ const Testimonials = ({ middleColumnOffset = 'mt-12' }) => {
         ],
         column2: [
             {
-                author: "Reece Akhtar",
+                author: "Ramarao Bharaav",
                 title: "CEO & Co-Founder @Deeper Signals",
                 heading: "Amazing to work with",
                 content: "Our product and website redesign went great, and we're thrilled with the end result. But more than that, Brandby was just amazing to work with and made the whole process fun and stress free. They're always super responsive, and have helped us with other design needs.",
                 verified: true
             },
             {
-                author: "Patrick Kelly",
+                author: "Paresh Gada",
                 title: "CEO & Founder @ClickMagick",
                 heading: "Efficiency and Excellence",
                 content: "Working with Brandby has been a breeze. They really nailed the details and delivered top-notch design. If you want things done right without any fuss, Brandby is your go-to.",
@@ -59,14 +59,14 @@ const Testimonials = ({ middleColumnOffset = 'mt-12' }) => {
         ],
         column3: [
             {
-                author: "Scott Willman",
+                author: "Joshua Menezes",
                 title: "EVP of Product Management @SmartCloud",
                 heading: "Outstanding product design",
                 content: "Their creativity-fueled technical skills resulted in visually stunning, user-friendly mobile app and web designs. It was an absolute pleasure working with such talented people. I highly recommend!",
                 verified: true
             },
             {
-                author: "Marta Tkoczek",
+                author: "Laxmi Pandey",
                 title: "Product Owner @Phix",
                 heading: "Excellent Design",
                 content: "Working with Brandby has been a pleasure. They were fast, great in communication and crafted an excellent design.",
