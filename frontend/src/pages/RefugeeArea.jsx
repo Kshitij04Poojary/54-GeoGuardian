@@ -115,8 +115,8 @@ const RefugeeArea = () => {
             key={area.id}
             className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow duration-300"
           >
-            <Link to={`/dashboard/refugeearea/${area.id}`} className="block">
-              <div className="p-6">
+            
+              <div className="p-6 block">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg font-semibold text-gray-800">{area.areaname}</h3>
                   <span className="px-3 py-1 bg-red-100 text-red-600 rounded-full text-sm font-medium">
@@ -141,7 +141,6 @@ const RefugeeArea = () => {
                   View Details
                 </p>
               </div>
-            </Link>
           </div>
         ))}
       </div>
