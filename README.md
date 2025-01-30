@@ -5,7 +5,7 @@ Features Used: Temperature, pressure, humidity, wind speed, latitude, and consta
 
 2. Landslide Risk Prediction (LightGBM Model)
 This model predicts the risk of landslides by efficiently handling structured weather data using a LightGBM classifier. The output is categorized into High, Low, Moderate, or Very High risk levels.
-Features Used: Temperature, humidity, precipitation, and elevation (994 meters).
+Features Used: Temperature, humidity, precipitation, and elevation.
 
 3. Cyclone Intensity Assessment (Deep Learning Model - ResNet-18)
 A ResNet-18 model fine-tuned to assess cyclone intensity from satellite images generated for specific geolocations. The architecture outputs a single numerical intensity value.
