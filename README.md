@@ -8,7 +8,7 @@ This project is a web-based application that provides insights and predictions r
 
 Watch this video tutorial for more information on how to set up and use the project:
 
-[![Watch the video]](https://youtu.be/qaT6v7VqzDE)
+[[Watch the video]](https://youtu.be/qaT6v7VqzDE)
 
 Click the image above to watch the tutorial on YouTube.
 
