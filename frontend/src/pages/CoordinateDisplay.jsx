@@ -21,7 +21,7 @@ const CoordinateDisplay = () => {
                 longitude,
             }, { withCredentials: true });
 
-            const response2 = await axios.post('http://127.0.0.1:5008/api/main/cyclone/images', {
+            const response2 = await axios.post('http://127.0.0.1:5008/api/main/cyclone/csv', {
                 latitude,
                 longitude,
             }, { withCredentials: true });
@@ -44,8 +44,28 @@ const CoordinateDisplay = () => {
             setFloodedProb(response4.data.probability);
 
             setShowTarget(true);
-
-
+            if (
+                response4.data.probability > 0.7 ||
+                response2.data.data === 1 ||
+                response3.data.data === "Medium" ||
+                response3.data.data === "High" ||
+                response3.data.data === "Very High" ||
+                response.data.data > 34
+            ) {
+                const alertMessage = `Alert! 
+                ${response4.data.probability > 0.7 ? "Flood risk is high." : ""}
+                ${response2.data.data === 1 ? "Cyclone detected." : ""}
+                ${["Medium", "High", "Very High"].includes(response3.data.data) ? `Landslide risk: ${response3.data.data}.` : ""}
+                ${response.data.data > 34 ? `Cyclone wind speed detected: ${response.data.data} knots.` : ""}`
+                .trim();
+            
+                await axios.post('http://localhost:8000/api/broadcast/broadcast', {
+                  message: alertMessage
+                });
+            
+                console.log(alertMessage);
+            }
+            
         } catch (error) {
             console.error('There was an error with the request:', error);
         } finally {

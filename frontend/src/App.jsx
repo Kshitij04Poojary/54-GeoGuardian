@@ -23,6 +23,7 @@ import { UserContextProvider } from './context/UserContext';
 import UpdateDashboard from './pages/UpdateDashboard';
 import CoordinateDisplay from './pages/CoordinateDisplay';
 import ContactForm from './components/ContactForm';
+import Donate from './components/Donate';
 function App() {
 
   return (
@@ -46,6 +47,7 @@ function App() {
 
         <Route path='/update-dashboard' element={<UpdateDashboard />} />
         <Route path='/contact' element={<ContactForm/>}/>
+        <Route path='/donate' element={<Donate/>}/>
         
       </Routes >
     </UserContextProvider>
