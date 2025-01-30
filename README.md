@@ -33,6 +33,33 @@ Make sure you have Node.js installed. You can check by running:
 5. Open the application
    Open a web browser and navigate to http://localhost:3000 (or another URL if your configuration specifies a different port) to view the application.
 
+## Running the Node.js Backend
+
+1. Set up your Node.js environment
+   Make sure you have Node.js installed. You can check this by running:
+   ```bash
+   node -v
+   ```
+2.Navigate to the backend directory
+   If your backend is located in a directory called backend/nodejs, navigate to it by running:
+   ```
+      cd backend/nodejs
+   ```
+3. Install required Node.js packages
+   Once you are in the backend directory, install the necessary dependencies by running:
+   ```
+      npm install
+   ```
+
+4. Run the Node.js backend server
+   Start the backend server by running:
+   ```
+      npm start
+   ```
+   This will start the backend server, typically at http://localhost:5000 or another port defined in your project.
+
+
+   
 ## Running the Flask Backend
 1. Set up your Python environment
    It's recommended to create a virtual environment for your Python dependencies. You can do this by running:
