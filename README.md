@@ -1,3 +1,9 @@
+# GeoGuardian
+
+## Overview
+
+This project is a web-based application that provides insights and predictions related to natural disasters like cyclones, landslides, and floods. It uses various machine learning models for risk predictions and image classification.
+
 ## ML Models Used
 
 1. **Cyclone Risk Prediction (Linear Regression Model)**  
@@ -19,3 +25,22 @@
    This model classifies satellite images into flooded and non-flooded categories using transfer learning. It provides prediction probabilities along with the classification result.  
    **Features Used**: Satellite image data with relevant pixel information preprocessed for classification.  
    **Dataset**:   [Flood Dataset](https://www.kaggle.com/datasets/rahultp97/louisiana-flood-2016)
+
+## Prerequisites
+
+To run this project locally, make sure you have the following installed:
+
+- [Node.js](https://nodejs.org/) (version 14.x or later)
+- [Python](https://www.python.org/) (version 3.x)
+- [pip](https://pip.pypa.io/en/stable/) (for Python package installation)
+
+## Running the Frontend
+
+To run the frontend of this application locally, follow these steps:
+
+1. **Clone the repository**:
+   If you haven't cloned the repository yet, use the following command:
+
+   ```bash
+   git clone https://github.com/Kshitij04Poojary/54-GeoGuardian.git
+
