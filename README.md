@@ -54,7 +54,7 @@ Make sure you have Node.js installed. You can check by running:
 4. Run the Node.js backend server
    Start the backend server by running:
    ```
-      npm start
+      npm run dev
    ```
    This will start the backend server, typically at http://localhost:5000 or another port defined in your project.
 
