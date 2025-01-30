@@ -44,3 +44,21 @@ To run the frontend of this application locally, follow these steps:
    ```bash
    git clone https://github.com/Kshitij04Poojary/54-GeoGuardian.git
 
+2. Navigate to the frontend directory
+If your frontend is located in a separate directory (e.g., frontend), navigate to that directory by running:
+   ```bash
+   cd frontend
+   ```
+3. Install dependencies
+Make sure you have Node.js installed. You can check by running:
+   ```bash
+   node -v
+   ```
+4. Start the development server
+   ```
+   npm run dev
+   ```
+   This will start the development server, typically at http://localhost:3000, where you can see the frontend running.
+
+5. Open the application
+   Open a web browser and navigate to http://localhost:3000 (or another URL if your configuration specifies a different port) to view the application.
