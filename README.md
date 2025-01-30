@@ -33,6 +33,34 @@ Make sure you have Node.js installed. You can check by running:
 5. Open the application
    Open a web browser and navigate to http://localhost:3000 (or another URL if your configuration specifies a different port) to view the application.
 
+## Running the Flask Backend
+1. Set up your Python environment
+   It's recommended to create a virtual environment for your Python dependencies. You can do this by running:
+   ```
+      python -m venv venv
+   ```
+   On Windows:
+   ```
+      venv\Scripts\activate
+   ```
+   On macOS/Linux::
+   ```
+      source venv/bin/activate
+   ```
+
+2. Install required Python packages
+   Once the virtual environment is activated, install the necessary dependencies:
+   ```
+      pip install -r requirements.txt
+   ```
+
+3.  Run the backend server
+   Start the backend server by running:
+   ```
+      python app.py
+   ```
+This will start the backend server, usually at http://localhost:5000.
+
 
 ## ML Models Used
 
