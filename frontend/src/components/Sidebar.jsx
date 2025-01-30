@@ -9,6 +9,7 @@ import {
   Globe,
   Tent,
   ScrollText,
+  IndianRupee,
   LogOut
 } from 'lucide-react';
 import { UserContext } from "../context/UserContext";
@@ -65,6 +66,12 @@ const Sidebar = () => {
       path: "/dashboard/refugeearea",
       allowedFor: ["Admin", "NGO", "Organization", "Citizen"],
       icon: Tent
+    },
+    {
+      name: "Donation",
+      path: "/donate",
+      allowedFor: ["Admin", "NGO", "Organization", "Citizen"],
+      icon: IndianRupee
     },
     {
       name: "Logout",

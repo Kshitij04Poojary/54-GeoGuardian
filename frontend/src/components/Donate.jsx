@@ -3,14 +3,14 @@ import PricingPlan from './PricingPlan';
 
 const Donate = () => {
     return (
-        <div className='min-h-screen bg-gradient-to-br from-indigo-900 via-indigo-800 to-blue-900 p-10'>
-            <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
-                <h1 className="text-4xl font-bold text-center text-white mb-12">Support Our Mission</h1>
+        <div className='min-h-screen bg-gradient-to-br from-indigo-900 via-indigo-800 to-blue-900'>
+            <div className="mx-auto max-w-3xl px-4 py-2 sm:px-6 sm:py-4 lg:px-8">
+                <h1 className="text-4xl font-bold text-center text-white mb-8">Support Our Mission</h1>
                 <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:items-stretch">
                     {PricingPlan.map((item, index) => (
                         <div 
                             key={index} 
-                            className="relative group rounded-3xl border border-white/10 p-6 sm:px-8 lg:p-12 
+                            className="relative group rounded-3xl border border-white/10 p-5 sm:px-8 lg:p-10 
                                      flex flex-col justify-between h-full overflow-hidden
                                      backdrop-blur-lg bg-white/10
                                      transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl
