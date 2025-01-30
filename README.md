@@ -57,7 +57,7 @@ Make sure you have Node.js installed. You can check by running:
 3.  Run the backend server
    Start the backend server by running:
    ```
-      python app.py
+      python run.py
    ```
 This will start the backend server, usually at http://localhost:5000.
 
