@@ -4,6 +4,36 @@
 
 This project is a web-based application that provides insights and predictions related to natural disasters like cyclones, landslides, and floods. It uses various machine learning models for risk predictions and image classification.
 
+## Running the Frontend
+
+To run the frontend of this application locally, follow these steps:
+
+1. **Clone the repository**:
+   If you haven't cloned the repository yet, use the following command:
+
+   ```bash
+   git clone https://github.com/Kshitij04Poojary/54-GeoGuardian.git
+
+2. Navigate to the frontend directory
+If your frontend is located in a separate directory (e.g., frontend), navigate to that directory by running:
+   ```bash
+   cd frontend
+   ```
+3. Install dependencies
+Make sure you have Node.js installed. You can check by running:
+   ```bash
+   node -v
+   ```
+4. Start the development server
+   ```
+   npm run dev
+   ```
+   This will start the development server, typically at http://localhost:3000, where you can see the frontend running.
+
+5. Open the application
+   Open a web browser and navigate to http://localhost:3000 (or another URL if your configuration specifies a different port) to view the application.
+
+
 ## ML Models Used
 
 1. **Cyclone Risk Prediction (Linear Regression Model)**  
@@ -34,31 +64,3 @@ To run this project locally, make sure you have the following installed:
 - [Python](https://www.python.org/) (version 3.x)
 - [pip](https://pip.pypa.io/en/stable/) (for Python package installation)
 
-## Running the Frontend
-
-To run the frontend of this application locally, follow these steps:
-
-1. **Clone the repository**:
-   If you haven't cloned the repository yet, use the following command:
-
-   ```bash
-   git clone https://github.com/Kshitij04Poojary/54-GeoGuardian.git
-
-2. Navigate to the frontend directory
-If your frontend is located in a separate directory (e.g., frontend), navigate to that directory by running:
-   ```bash
-   cd frontend
-   ```
-3. Install dependencies
-Make sure you have Node.js installed. You can check by running:
-   ```bash
-   node -v
-   ```
-4. Start the development server
-   ```
-   npm run dev
-   ```
-   This will start the development server, typically at http://localhost:3000, where you can see the frontend running.
-
-5. Open the application
-   Open a web browser and navigate to http://localhost:3000 (or another URL if your configuration specifies a different port) to view the application.
